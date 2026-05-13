@@ -1,0 +1,8 @@
+tensorflow[and-cuda]
+tensorflow-datasets
+scikit-learn
+matplotlib
+pandas
+seaborn
+jupyter
+importlib_resources

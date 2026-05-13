@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# Local datasets and generated TensorFlow data
+data/tfds/
+data/plantdoc/
+
+# Trained/exported models
+models/
+
+# Generated reports and experiment outputs
+reports/
+
+# Private/local project documents
+docs/
+images/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
