@@ -9,6 +9,7 @@ The project currently focuses on the AI pipeline:
 - PlantVillage baseline training with transfer learning.
 - Evaluation on a held-out PlantVillage test split.
 - Cross-dataset evaluation on PlantDoc for more realistic field images.
+- PlantDoc fine-tuning experiments to reduce the domain shift.
 - Grad-CAM visual explanation.
 - TensorFlow Lite export for future Flutter mobile integration.
 
@@ -17,7 +18,9 @@ The project currently focuses on the AI pipeline:
 ```text
 .
 ├── notebooks/
-│   └── jalon2_pipeline_baseline.ipynb
+│   ├── jalon2_pipeline_baseline.ipynb    # first complete baseline pipeline
+│   ├── jalon2_pipeline_improved.ipynb    # stronger augmentation + PlantDoc fine-tuning
+│   └── jalon2_next_experiments.ipynb     # additional experiments and Grad-CAM audit
 ├── scripts/
 │   └── tf_gpu_env.sh             # TensorFlow GPU runtime helper
 ├── requirements.txt
@@ -109,7 +112,7 @@ data/plantdoc/
 
 The notebook contains an explicit mapping from PlantDoc class names to PlantVillage labels. This avoids evaluating classes with mismatched or ambiguous names.
 
-## Running the Baseline Notebook
+## Running the Notebooks
 
 Start Jupyter:
 
@@ -124,7 +127,13 @@ Then open:
 notebooks/jalon2_pipeline_baseline.ipynb
 ```
 
-The notebook performs:
+Recommended order:
+
+1. `notebooks/jalon2_pipeline_baseline.ipynb`
+2. `notebooks/jalon2_pipeline_improved.ipynb`
+3. `notebooks/jalon2_next_experiments.ipynb`
+
+The baseline notebook performs:
 
 1. Environment and GPU checks.
 2. PlantVillage loading and split creation.
@@ -135,7 +144,9 @@ The notebook performs:
 7. TensorFlow Lite export.
 8. PlantDoc evaluation on common classes.
 
-## Current Baseline Results
+The improved notebook keeps the same mobile-compatible architecture, but adds stronger realistic augmentation and a second fine-tuning phase on PlantDoc. The next-experiments notebook compares additional options, audits Grad-CAM attention, and documents why some approaches, such as naive background masking, are not retained.
+
+## Current Results
 
 Latest PlantVillage baseline run:
 
@@ -154,7 +165,15 @@ Latest PlantDoc evaluation on common classes:
 - Macro F1: **17.39%**
 - Mean prediction confidence: **63.37%**
 
-These results should be interpreted carefully. PlantVillage is a controlled dataset with centered leaves and clean backgrounds, so performance is optimistic compared with real mobile photos. The PlantDoc evaluation confirms a significant domain shift: the current baseline is technically functional, but not robust enough yet for reliable field diagnosis.
+Latest improved run after PlantDoc fine-tuning:
+
+- PlantVillage test accuracy: **71.34%**
+- PlantVillage macro F1: **63.02%**
+- PlantDoc accuracy: **37.29%**
+- PlantDoc macro F1: **31.19%**
+- Mean PlantDoc prediction confidence: **42.16%**
+
+These results should be interpreted carefully. PlantVillage is a controlled dataset with centered leaves and clean backgrounds, so performance is optimistic compared with real mobile photos. The improved model performs better on PlantDoc, but loses a lot of PlantVillage accuracy, which shows the trade-off introduced by fine-tuning on a small real-world dataset. The current pipeline is functional, but not robust enough yet for reliable field diagnosis.
 
 ## Mobile Direction
 
