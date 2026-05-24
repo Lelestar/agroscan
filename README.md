@@ -10,19 +10,29 @@ The project currently focuses on the AI pipeline:
 - Evaluation on a held-out PlantVillage test split.
 - Cross-dataset evaluation on PlantDoc for more realistic field images.
 - PlantDoc fine-tuning experiments to reduce the domain shift.
-- Grad-CAM visual explanation.
-- TensorFlow Lite export for future Flutter mobile integration.
+- Grad-CAM visual explanation (notebooks + [mobile implementation](docs/GRADCAM.md)).
+- TensorFlow Lite export for Flutter mobile integration.
 
 ## Repository Structure
 
 ```text
 .
+├── docs/
+│   └── GRADCAM.md                # architecture Grad-CAM mobile (export, Dart, UI)
+├── mobile/                       # Flutter app (Android, on-device TFLite)
 ├── notebooks/
 │   ├── jalon2_pipeline_baseline.ipynb    # first complete baseline pipeline
 │   ├── jalon2_pipeline_improved.ipynb    # stronger augmentation + PlantDoc fine-tuning
 │   └── jalon2_next_experiments.ipynb     # additional experiments and Grad-CAM audit
 ├── scripts/
-│   └── tf_gpu_env.sh             # TensorFlow GPU runtime helper
+│   ├── README.md                       # cross-platform script guide (Windows / macOS / Linux)
+│   ├── sync_mobile_assets.sh / .ps1    # export TFLite + Grad-CAM → mobile/assets
+│   ├── export_mobile_explain_tflite.py # dual TFLite (probs + conv) + CAM weights
+│   ├── export_mobile_tflite.py         # classification / quantized export (optional)
+│   ├── validate_advice_coverage.sh / .ps1
+│   ├── verify_mobile_preprocessing.py  # image preprocessing verification
+│   ├── generate_launcher_icon.py       # PNG launcher Android
+│   └── tf_gpu_env.sh                   # TensorFlow GPU helper (Linux only)
 ├── requirements.txt
 └── README.md
 ```
@@ -78,19 +88,16 @@ TensorFlow is installed with CUDA runtime packages through:
 tensorflow[and-cuda]
 ```
 
-On Linux, TensorFlow may still fail to find the CUDA/cuDNN shared libraries installed inside `.venv`. The helper script sets `LD_LIBRARY_PATH` to include the NVIDIA libraries from the virtual environment.
+GPU setup depends on your OS — see the [TensorFlow GPU guide](https://www.tensorflow.org/install/pip#windows-native_1) for Windows, macOS (often CPU-only), and Linux.
 
-To check GPU detection:
+**Linux:** if `list_physical_devices('GPU')` is empty even after install, the libraries inside `.venv` may not be on `LD_LIBRARY_PATH`. Use the helper script:
 
 ```bash
 ./scripts/tf_gpu_env.sh python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
-```
-
-To launch Jupyter with the same GPU configuration:
-
-```bash
 ./scripts/tf_gpu_env.sh jupyter lab
 ```
+
+**Windows / macOS:** run Jupyter or Python from the activated `.venv` without `tf_gpu_env.sh` (that script is Linux-specific).
 
 ## Data
 
@@ -175,19 +182,65 @@ Latest improved run after PlantDoc fine-tuning:
 
 These results should be interpreted carefully. PlantVillage is a controlled dataset with centered leaves and clean backgrounds, so performance is optimistic compared with real mobile photos. The improved model performs better on PlantDoc, but loses a lot of PlantVillage accuracy, which shows the trade-off introduced by fine-tuning on a small real-world dataset. The current pipeline is functional, but not robust enough yet for reliable field diagnosis.
 
-## Mobile Direction
+## Scripts
 
-The final product is intended to be a Flutter mobile application with local inference. The app should work without requiring a network connection, which is important for use in gardens, orchards or small farms with poor connectivity.
+All helper scripts live under [`scripts/`](scripts/). See **[`scripts/README.md`](scripts/README.md)** for a **Windows / macOS / Linux** matrix (which file to run on each OS). You do **not** need to run every script — only those that match your task.
 
-The planned mobile flow is:
+| Script | Needed for the app? | When to run |
+|--------|---------------------|-------------|
+| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training or re-exporting `models/agroscan_baseline.keras`. Copies dual TFLite, Grad-CAM weights, and `labels.json` into `mobile/assets/models/`. Use `.sh` on Linux/macOS, `.ps1` on Windows (or Git Bash). |
+| [`export_mobile_explain_tflite.py`](scripts/export_mobile_explain_tflite.py) | (called by sync) | Manual use only if you are debugging the mobile export itself (same output as sync). |
+| [`export_mobile_tflite.py`](scripts/export_mobile_tflite.py) | **No** (optional) | Legacy / experiments: classification-only or quantized TFLite (~0.18 MB). The Flutter app uses the dual float model from `export_mobile_explain_tflite.py`, not this file. |
+| [`validate_advice_coverage.sh`](scripts/validate_advice_coverage.sh) / [`.ps1`](scripts/validate_advice_coverage.ps1) | **Yes** (content) | After editing `mobile/assets/advice/diseases_fr.json`. Or `cd mobile && dart run tool/validate_advice_coverage.dart` on any OS. |
+| [`verify_mobile_preprocessing.py`](scripts/verify_mobile_preprocessing.py) | **No** (debug) | After changing `mobile/lib/data/ml/preprocess.dart` or the TFLite export. Checks that Keras and TFLite agree on input scale `[0, 255]`. |
+| [`generate_launcher_icon.py`](scripts/generate_launcher_icon.py) | **No** (branding) | Only when updating the app icon from `assets/branding/agroscan_logo.svg`. Then run `dart run flutter_launcher_icons` in `mobile/`. |
+| [`tf_gpu_env.sh`](scripts/tf_gpu_env.sh) | **No** (training) | **Linux only** (optional): sets `LD_LIBRARY_PATH` so TensorFlow finds CUDA/cuDNN inside `.venv`. On Windows/macOS, follow TensorFlow GPU docs for your platform instead. |
 
-```text
-Home -> Capture/Import -> Local Analysis -> Diagnosis Result
-                               ├── Visual Explanation
-                               └── Disease Advice
+Typical workflows:
+
+```bash
+# Linux / macOS — refresh mobile bundle after training
+./scripts/sync_mobile_assets.sh
+cd mobile && flutter pub get && flutter run
+
+# Windows PowerShell — same step
+.\scripts\sync_mobile_assets.ps1
+cd mobile; flutter pub get; flutter run
+
+# Advice JSON (any OS)
+cd mobile && dart run tool/validate_advice_coverage.dart
+
+# GPU + Jupyter (Linux only)
+./scripts/tf_gpu_env.sh jupyter lab
 ```
 
-The model output should remain cautious: the app provides a preliminary diagnosis, not a definitive expert decision.
+Each Python script also supports `--help` and has a short module docstring at the top.
+
+## Mobile App (Flutter)
+
+An **alpha Android** build lives in [`mobile/`](mobile/). See [`mobile/README.md`](mobile/README.md) for setup, debugging, and Grad-CAM details ([`docs/GRADCAM.md`](docs/GRADCAM.md)).
+
+Quick start (see [mobile/README.md](mobile/README.md) for Windows/macOS details):
+
+```bash
+./scripts/sync_mobile_assets.sh   # after training / model export (or export_mobile_explain_tflite.py on Windows)
+cd mobile && flutter pub get && flutter run
+```
+
+Requires [Flutter](https://docs.flutter.dev/get-started/install) on your `PATH` (`flutter doctor` on all platforms).
+
+Implemented flow:
+
+```text
+Home -> Capture/Import -> Local analysis (TFLite) -> Result
+                               ├── Analyzed regions (Grad-CAM, predicted class)
+                               └── Disease sheet (French advice JSON)
+History (local SQLite)
+```
+
+Preprocessing matches the baseline notebook: **224×224** images, **float32 pixels in [0, 255]**. MobileNetV3 `Rescaling` is **inside** the TFLite graph — do **not** divide by 255 in the app. To verify: `.venv/bin/python scripts/verify_mobile_preprocessing.py`
+
+The model output remains cautious: preliminary diagnosis only, not a definitive expert decision.
 
 ## Authors
 

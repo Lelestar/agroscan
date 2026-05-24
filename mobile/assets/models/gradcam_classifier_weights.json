@@ -1,0 +1,9 @@
+{
+  "channels": 576,
+  "classes": 38,
+  "spatial": [
+    7,
+    7
+  ],
+  "format": "float32_column_major_kernel"
+}

@@ -1,0 +1,1077 @@
+{
+  "generic_healthy": {
+    "key": "generic_healthy",
+    "title": "Plante probablement saine",
+    "category": "Sain",
+    "description": "Cette feuille ne montre pas de signe évident de maladie sur la photo analysée. Une feuille saine ne prouve pas que toute la plante est exempte de problème : observez l'ensemble du végétal et refaites un scan si de nouvelles taches ou déformations apparaissent.",
+    "symptoms": [],
+    "steps": [
+      {
+        "title": "Surveiller régulièrement",
+        "description": "Inspectez feuilles, tiges et fruits pendant une à deux semaines. Les maladies évoluent vite : une feuille saine aujourd'hui peut coexister avec d'autres feuilles déjà atteintes."
+      },
+      {
+        "title": "Arroser correctement",
+        "description": "Arrosez au pied de la plante, de préférence le matin. Évitez d'arroser le feuillage en excès et assurez un bon drainage du sol ou du contenant."
+      },
+      {
+        "title": "Favoriser l'aération",
+        "description": "Espacez les plants si possible, taillez légèrement les zones trop denses et favorisez la circulation d'air pour limiter l'humidité stagnante sur les feuilles."
+      },
+      {
+        "title": "Hygiène du jardin",
+        "description": "Retirez les feuilles mortes au sol, nettoyez les outils entre les plants et ne compostez pas de débris visiblement malades."
+      },
+      {
+        "title": "Nouveau scan en cas de doute",
+        "description": "Si des taches, jaunissures ou déformations apparaissent, photographiez une feuille symptôme bien éclairée et relancez une analyse."
+      }
+    ],
+    "disclaimer": "Ces conseils généraux s'appliquent à la plupart des cultures potagères et fruitières du jardin. Ils ne remplacent pas un avis d'agronome pour une culture commerciale ou un diagnostic sur place."
+  },
+  "generic_disease": {
+    "key": "generic_disease",
+    "title": "Maladie suspectée",
+    "category": "À confirmer",
+    "description": "Des symptômes visuels ont été détectés. Ce diagnostic est préliminaire et doit être confirmé si les signes persistent.",
+    "symptoms": [
+      {
+        "text": "Taches, décoloration ou déformation visible sur la feuille.",
+        "isPrimary": true
+      },
+      {
+        "text": "Évolution possible vers d'autres feuilles si non traité.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Isoler la plante",
+        "description": "Éloignez le plant affecté des autres cultures pour limiter la contagion."
+      },
+      {
+        "title": "Retirer les feuilles très atteintes",
+        "description": "Coupez et détruisez les parties malades. Ne les mettez pas au compost."
+      },
+      {
+        "title": "Consulter une source fiable",
+        "description": "Si les symptômes s'étendent, demandez l'avis d'un agronome ou d'un centre de conseils."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. En cas de doute sévère, consultez un expert agronome."
+  },
+  "tomato_bacterial_spot": {
+    "key": "tomato_bacterial_spot",
+    "title": "Tache bactérienne de la tomate",
+    "category": "Bactérienne",
+    "description": "Maladie causée par des bactéries du genre Xanthomonas, transmises par les graines, les débris et les gouttelettes. Les températures chaudes et l'humidité sur le feuillage favorisent les infections. Elle réduit la photosynthèse, peut provoquer la chute prématurée des feuilles et des taches sur les fruits en serre ou au jardin.",
+    "symptoms": [
+      {
+        "text": "Petites taches anguleuses brun foncé à noir, souvent entourées d'un halo jaune sur les feuilles.",
+        "isPrimary": true
+      },
+      {
+        "text": "Lésions surélevées et rugueuses sur les fruits verts, parfois avec un centre clair.",
+        "isPrimary": false
+      },
+      {
+        "text": "Défoliation progressive si la pression de maladie est élevée.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Utiliser des semences saines",
+        "description": "Privilégiez des semences certifiées ou traitées thermiquement ; évitez de sauver des graines de plants malades."
+      },
+      {
+        "title": "Rotation et assainissement",
+        "description": "Ne plantez pas de solanacées au même endroit pendant 2 à 3 ans ; retirez et détruisez les débris de fin de saison."
+      },
+      {
+        "title": "Gérer l'humidité du feuillage",
+        "description": "Arrosez tôt le matin au pied, espacez les plants, taillez le feuillage du bas pour aérer ; évitez de travailler les plants mouillés."
+      },
+      {
+        "title": "Protection chimique si nécessaire",
+        "description": "Un bactéricide ou un cuivre homologué pour la tomate peut être envisagé selon l'étiquette et l'avis d'un professionnel en cas de foyer actif."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_early_blight": {
+    "key": "tomato_early_blight",
+    "title": "Alternariose de la tomate",
+    "category": "Fongique",
+    "description": "Champignon Alternaria solani présent dans les débris végétaux ; les spores infectent par temps chaud et humide. La maladie attaque d'abord les feuilles âgées, affaiblit la plante et peut toucher tiges et fruits. Elle est fréquente en jardin lorsque la densité de plantation est élevée.",
+    "symptoms": [
+      {
+        "text": "Taches brunes concentriques en forme de cible sur les feuilles du bas.",
+        "isPrimary": true
+      },
+      {
+        "text": "Jaunissement et dessèchement autour des lésions, parfois défoliation ascendante.",
+        "isPrimary": false
+      },
+      {
+        "text": "Taches sombres en forme de coup de soleil près du pédoncule des fruits.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Retirer le feuillage touché",
+        "description": "Supprimez les feuilles du bas atteintes et les débris au sol ; ne les compostez pas si l'infection est avancée."
+      },
+      {
+        "title": "Mulch et rotation",
+        "description": "Paillez pour limiter les éclaboussures de sol vers le feuillage ; alternez les cultures sur plusieurs saisons."
+      },
+      {
+        "title": "Améliorer l'aération",
+        "description": "Espacez les plants, taillez les gourmands avec modération et évitez l'arrosage du feuillage en soirée."
+      },
+      {
+        "title": "Fongicide préventif",
+        "description": "En présence répétée de taches, un fongicide homologué pour la tomate peut être appliqué selon l'étiquette après avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_late_blight": {
+    "key": "tomato_late_blight",
+    "title": "Mildiou de la tomate",
+    "category": "Fongique",
+    "description": "Agent Phytophthora infestans, propagé par les spores dans l'air par temps frais et humide. C'est l'une des maladies les plus destructrices de la tomate et de la pomme de terre. Sans mesures rapides, le feuillage peut être détruit en quelques jours et les fruits pourrir.",
+    "symptoms": [
+      {
+        "text": "Grandes taches brun olive à noires, souvent à marge irrégulière, sur feuilles et tiges.",
+        "isPrimary": true
+      },
+      {
+        "text": "Feutrage blanchâtre à grisâtre sur la face inférieure des feuilles par temps humide.",
+        "isPrimary": true
+      },
+      {
+        "text": "Taches brunes fermes sur les fruits, pouvant couvrir toute la surface.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Éliminer les foyers rapidement",
+        "description": "Retirez et détruisez (brûlage autorisé ou sac fermé) les plants très atteints pour limiter la dispersion vers le voisinage."
+      },
+      {
+        "title": "Surveiller la météo",
+        "description": "Soyez vigilant après les périodes fraîches et pluvieuses ; inspectez le feuillage tous les deux jours en saison à risque."
+      },
+      {
+        "title": "Réduire l'humidité foliaire",
+        "description": "Arrosez au pied le matin, espacez les plants sous abri, ventilez les serres et évitez l'arrosage par aspersion."
+      },
+      {
+        "title": "Protection fongique ciblée",
+        "description": "Des produits homologués contre le mildiou peuvent être nécessaires en culture commerciale ; suivez l'étiquette et consultez un agronome pour le jardin à forte pression."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_leaf_mold": {
+    "key": "tomato_leaf_mold",
+    "title": "Moisissure foliaire de la tomate (Passalora)",
+    "category": "Fongique",
+    "description": "Champignon Passalora fulva (syn. Cladosporium fulvum), surtout problématique en serre ou sous abri où l'humidité relative reste élevée. Il colonise le feuillage par temps chaud et humide. Une infection sévère diminue le rendement et favorise la chute des feuilles.",
+    "symptoms": [
+      {
+        "text": "Taches jaune pâle à vert jaune sur la face supérieure des feuilles.",
+        "isPrimary": true
+      },
+      {
+        "text": "Moisissure olive à brune veloutée sous les feuilles, typique de cette maladie.",
+        "isPrimary": true
+      },
+      {
+        "text": "Flétrissement et brunissement des feuilles très colonisées.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Ventiler et déshumidifier",
+        "description": "Augmentez la circulation d'air en serre, chauffez légèrement la nuit si possible et évitez les arrosages du soir sur le feuillage."
+      },
+      {
+        "title": "Choisir des variétés tolérantes",
+        "description": "Pour les prochaines plantations, privilégiez des cultivars résistants à la moisissure foliaire adaptés à votre type de culture."
+      },
+      {
+        "title": "Retirer les feuilles atteintes",
+        "description": "Coupez les feuilles fortement colonisées et sortez-les de la serre pour réduire l'inoculum."
+      },
+      {
+        "title": "Fongicide en serre",
+        "description": "En cas de foyer persistant, un fongicide homologué en tomate sous abri peut être utilisé selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_septoria_leaf_spot": {
+    "key": "tomato_septoria_leaf_spot",
+    "title": "Septoriose de la tomate",
+    "category": "Fongique",
+    "description": "Champignon Septoria lycopersici survivant dans les débris de tomate. Les spores sont éclaboussées par la pluie ou l'arrosage. Elle cause une défoliation progressive à partir du bas du plant, réduisant la production et exposant les fruits au soleil.",
+    "symptoms": [
+      {
+        "text": "Nombreuses petites taches circulaires grisâtre avec bordure foncée sur les feuilles du bas.",
+        "isPrimary": true
+      },
+      {
+        "text": "Points noirs minuscules (pycnides) au centre des taches par temps humide.",
+        "isPrimary": false
+      },
+      {
+        "text": "Jaunissement et chute des feuilles inférieures en cascade.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Assainir le bas du plant",
+        "description": "Retirez les feuilles du premier palier touchées et paillez le sol pour limiter les éclaboussures."
+      },
+      {
+        "title": "Rotation des cultures",
+        "description": "Évitez de replanter tomate ou pomme de terre au même endroit pendant au moins deux ans."
+      },
+      {
+        "title": "Arrosage au pied",
+        "description": "Ne mouillez pas le feuillage ; arrosez tôt le matin pour que les feuilles sèchent rapidement."
+      },
+      {
+        "title": "Traitement préventif",
+        "description": "Si la septoriose revient chaque année, un fongicide homologué appliqué préventivement selon l'étiquette peut être discuté avec un conseiller."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_spider_mites_two-spotted_spider_mite": {
+    "key": "tomato_spider_mites_two-spotted_spider_mite",
+    "title": "Acarien à deux points de la tomate",
+    "category": "Parasitaire",
+    "description": "Tetranychus urticae, acarien très petit favorisé par l'air sec et chaud, surtout en serre. Il pique les cellules foliaires, provoquant un bronzement et une chute des feuilles. Les populations explosent rapidement en l'absence de prédateurs.",
+    "symptoms": [
+      {
+        "text": "Piqures chlorotiques puis bronzement du feuillage, surtout sur la face supérieure.",
+        "isPrimary": true
+      },
+      {
+        "text": "Toiles fines et dépôts ponctués sur les feuilles et entre les entre-nœuds.",
+        "isPrimary": true
+      },
+      {
+        "text": "Feuilles qui se dessèchent et tombent lors d'infestations sévères.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Augmenter l'humidité relative",
+        "description": "En serre, maintenez une humidité modérée et arrosez légèrement les allées pour décourager les acariens, sans saturer le feuillage la nuit."
+      },
+      {
+        "title": "Favoriser les auxiliaires",
+        "description": "Évitez les insecticides à large spectre ; les phytoseiidés et autres prédateurs aident à réguler les populations."
+      },
+      {
+        "title": "Nettoyer les repousses",
+        "description": "Éliminez les mauvaises herbes et plants refuges autour de la culture qui hébergent les acariens."
+      },
+      {
+        "title": "Acaricide ciblé",
+        "description": "En cas de seuil dépassé, un acaricide ou un savon insecticide homologué peut être utilisé selon l'étiquette et l'avis professionnel, en ciblant la face inférieure des feuilles."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_target_spot": {
+    "key": "tomato_target_spot",
+    "title": "Taches cibles de la tomate (Corynespora)",
+    "category": "Fongique",
+    "description": "Champignon Corynespora cassiicola, largement répandu sur plusieurs cultures. Il infecte feuilles, tiges et fruits par temps chaud et humide. Les lésions réduisent la surface foliaire et peuvent rendre les fruits non commercialisables.",
+    "symptoms": [
+      {
+        "text": "Taches brunes concentriques en cible sur les feuilles, parfois entourées d'un halo jaune.",
+        "isPrimary": true
+      },
+      {
+        "text": "Lésions brunes sur les fruits, souvent près du pédoncule ou de la cicatrice florale.",
+        "isPrimary": false
+      },
+      {
+        "text": "Taches allongées brunes sur les tiges et pétioles.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Réduire l'inoculum",
+        "description": "Retirez les feuilles et fruits atteints, évitez le travail des plants mouillés et détruisez les débris en fin de saison."
+      },
+      {
+        "title": "Espacer et aérer",
+        "description": "Diminuez la densité de plantation et taillez modérément pour favoriser le séchage rapide du feuillage."
+      },
+      {
+        "title": "Rotation et variétés",
+        "description": "Alternez les familles de cultures et choisissez des variétés moins sensibles lorsque disponibles."
+      },
+      {
+        "title": "Fongicide si pression élevée",
+        "description": "Un produit homologué pour les maladies foliaires de la tomate peut être envisagé selon l'étiquette après évaluation professionnelle."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_tomato_mosaic_virus": {
+    "key": "tomato_tomato_mosaic_virus",
+    "title": "Virus de la mosaïque de la tomate",
+    "category": "Virale",
+    "description": "Virus ToMV transmis mécaniquement (mains, outils, tuteurs) et par certaines graines. Il n'existe pas de traitement curatif : la plante reste infectée. Les plants affaiblis produisent moins et les fruits peuvent être déformés.",
+    "symptoms": [
+      {
+        "text": "Mosaïque vert clair et vert foncé sur les feuilles, parfois rétrécissement du limbe.",
+        "isPrimary": true
+      },
+      {
+        "text": "Feuilles en « fer de lance » ou nervures marquées sur jeunes plants.",
+        "isPrimary": false
+      },
+      {
+        "text": "Fruits irréguliers, marbrés ou de calibre réduit.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Retirer les plants infectés",
+        "description": "Arrachez et éloignez les plants symptomatiques ; ne les compostez pas. Désinfectez gants et outils entre chaque plant."
+      },
+      {
+        "title": "Semences et plants certifiés",
+        "description": "Utilisez du matériel de multiplication sain et évitez le tabac près des tomates (virus du TMV possible)."
+      },
+      {
+        "title": "Hygiène de culture",
+        "description": "Lavez les mains avant la taille, désinfectez les serres et limitez le contact du feuillage blessé."
+      },
+      {
+        "title": "Pas de traitement curatif",
+        "description": "Aucun produit ne guérit la plante ; la prévention et l'élimination des foyers sont les seules mesures efficaces."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "tomato_tomato_yellow_leaf_curl_virus": {
+    "key": "tomato_tomato_yellow_leaf_curl_virus",
+    "title": "Virus de l'enroulement jaune des feuilles de la tomate",
+    "category": "Virale",
+    "description": "Virus TYLCV transmis par la mouche blanche Bemisia tabaci en climat chaud ou en serre chauffée. La plante ne guérit pas. L'infection entraîne un arrêt de croissance, une forte baisse de rendement et des fruits peu nombreux.",
+    "symptoms": [
+      {
+        "text": "Feuilles jeunes jaunes, réduites et enroulées vers le haut.",
+        "isPrimary": true
+      },
+      {
+        "text": "Raccourcissement des entre-nœuds et aspect touffu du plant.",
+        "isPrimary": true
+      },
+      {
+        "text": "Floraison réduite et fruits petits ou absents.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Lutter contre la mouche blanche",
+        "description": "Utilisez des filets anti-insectes en serre, éliminez les adventices hôtes et surveillez les adultes sur la face inférieure des feuilles."
+      },
+      {
+        "title": "Retirer les plants malades tôt",
+        "description": "Détruisez les plants dès les premiers symptômes pour limiter la source de virus pour les vecteurs."
+      },
+      {
+        "title": "Variétés tolérantes",
+        "description": "En zone à risque, plantez des cultivars portant des gènes de tolérance ou résistance au TYLCV lorsque disponibles."
+      },
+      {
+        "title": "Aucun remède viral",
+        "description": "Les insecticides ne guérissent pas le virus ; ils ne servent qu'à réduire les populations de mouches blanches selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "potato_early_blight": {
+    "key": "potato_early_blight",
+    "title": "Alternariose de la pomme de terre",
+    "category": "Fongique",
+    "description": "Alternaria solani attaque feuilles et tubercules, surtout lorsque les plants sont stressés ou âgés. Les débris laissés au champ maintiennent l'inoculum. Une défoliation prématurée diminue le gros calibre et la qualité de conservation.",
+    "symptoms": [
+      {
+        "text": "Taches brunes concentriques en cible sur les folioles, souvent d'abord sur le bas du plant.",
+        "isPrimary": true
+      },
+      {
+        "text": "Défoliation ascendante et taches sombres enfoncées sur les tubercules.",
+        "isPrimary": false
+      },
+      {
+        "text": "Collet de tige parfois brun et légèrement enfoncé.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Fertilisation équilibrée",
+        "description": "Évitez les carences en azote et potassium ; une nutrition adaptée renforce la tolérance du feuillage."
+      },
+      {
+        "title": "Rotation et débris",
+        "description": "Alternez avec des cultures non hôtes et enlevez les fanes et tubercules malades après récolte."
+      },
+      {
+        "title": "Irrigation régulière",
+        "description": "Maintenez une humidité de sol stable pour limiter le stress hydrique favorisant les lésions."
+      },
+      {
+        "title": "Protection foliaire",
+        "description": "En parcelles sensibles, un fongicide homologué pomme de terre peut être appliqué préventivement selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "potato_late_blight": {
+    "key": "potato_late_blight",
+    "title": "Mildiou de la pomme de terre",
+    "category": "Fongique",
+    "description": "Phytophthora infestans détruit le feuillage par temps frais et humide et infecte les tubercules par contact avec des spores tombées au sol. C'est une maladie majeure en climat tempéré. Les tubercules atteints pourrissent en stockage.",
+    "symptoms": [
+      {
+        "text": "Taches brun olive à noires sur les folioles, parfois avec bordure jaune.",
+        "isPrimary": true
+      },
+      {
+        "text": "Duvet blanchâtre à gris sous les feuilles par humidité élevée.",
+        "isPrimary": true
+      },
+      {
+        "text": "Pourriture brune granuleuse à ferme sur les tubercules.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Détruire les fanes infectées",
+        "description": "Brûlez ou enfouissez rapidement les fanes atteintes avant la récolte pour protéger les tubercules encore au sol."
+      },
+      {
+        "title": "Récolte et sélection",
+        "description": "Laissez mûrir la peau avant stockage ; écartez tout tubercule blessé ou taché."
+      },
+      {
+        "title": "Variétés et sources saines",
+        "description": "Choisissez des variétés plus tolérantes et plantez uniquement des semences de pomme de terre certifiées."
+      },
+      {
+        "title": "Traitements anti-mildiou",
+        "description": "En culture à risque, des fongicides homologués sont utilisés en prévention selon l'étiquette ; demandez un plan local à un agronome."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "apple_apple_scab": {
+    "key": "apple_apple_scab",
+    "title": "Tavelure du pommier",
+    "category": "Fongique",
+    "description": "Venturia inaequalis infecte feuilles, fleurs et fruits dès les premières pluies printanières. L'humidité prolongée sur le feuillage est essentielle à l'infection. Les fruits déformés et les défoliations réduisent la qualité et la vigueur de l'arbre.",
+    "symptoms": [
+      {
+        "text": "Taches vert olive puis brunes et veloutées sur les feuilles jeunes.",
+        "isPrimary": true
+      },
+      {
+        "text": "Lésions brunes et craquelées sur les fruits (« gale »).",
+        "isPrimary": true
+      },
+      {
+        "text": "Déformation et chute prématurée des jeunes pommes.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Ramasser les débris",
+        "description": "Retirez les feuilles tombées et les fruits momifiés au pied pour diminuer l'inoculum l'hiver suivant."
+      },
+      {
+        "title": "Tailler pour la lumière",
+        "description": "Aérez la couronne afin que les feuilles sèchent plus vite après la pluie."
+      },
+      {
+        "title": "Variétés résistantes",
+        "description": "Pour de nouvelles plantations, envisagez des cultivars portant des gènes de résistance à la tavelure."
+      },
+      {
+        "title": "Traitement au débourrement",
+        "description": "En verger sensible, des fongicides homologués pommier sont appliqués au printemps selon l'étiquette et l'avis d'un conseiller arboricole."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "apple_black_rot": {
+    "key": "apple_black_rot",
+    "title": "Pourriture noire du pommier",
+    "category": "Fongique",
+    "description": "Botryosphaeria obtusa infecte feuilles, fruits et bois par temps chaud et humide. Des blessures de taille ou de greffe facilitent l'entrée du champignon. Les fruits momifiés restent accrochés et servent de source d'inoculum.",
+    "symptoms": [
+      {
+        "text": "Taches brunes en forme de yeux de grenouille sur les feuilles.",
+        "isPrimary": true
+      },
+      {
+        "text": "Pourriture brune concentrique sur les fruits, puis momification noire.",
+        "isPrimary": true
+      },
+      {
+        "text": "Taches rouge brique sur le bois et gommose possible.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Enlever les fruits momifiés",
+        "description": "Retirez les « moumies » accrochées aux branches et au sol ; brûlez-les ou mettez-les à l'écart du verger."
+      },
+      {
+        "title": "Taille sanitaire",
+        "description": "Coupez les branches mortes ou cancéreuses en dessous de la zone atteinte ; désinfectez les outils entre les coupes."
+      },
+      {
+        "title": "Éviter les blessures",
+        "description": "Taillez par temps sec, protégez les plaies de taille et limitez les dommages mécaniques aux fruits."
+      },
+      {
+        "title": "Fongicide préventif",
+        "description": "Un produit homologué pommier peut compléter l'assainissement selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "apple_cedar_apple_rust": {
+    "key": "apple_cedar_apple_rust",
+    "title": "Rouille du cèdre et du pommier",
+    "category": "Fongique",
+    "description": "Gymnosporangium juniperi-virginianae nécessite un hôte alterne : genévrier (thuya/cèdre) et pommier. Les spores du genévrier infectent le pommier au printemps par temps humide. Les feuilles et fruits déformés affaiblissent l'arbre.",
+    "symptoms": [
+      {
+        "text": "Taches jaune orangé sur les feuilles de pommier au printemps.",
+        "isPrimary": true
+      },
+      {
+        "text": "Excroissances en cupules ou tubes sur les fruits et pétioles.",
+        "isPrimary": false
+      },
+      {
+        "text": "Déformation des jeunes pommes près des lésions.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Éloigner ou retirer les genévriers",
+        "description": "Supprimez les genévriers ornementaux à moins de 300 m du verger lorsque c'est possible, source des spores printanières."
+      },
+      {
+        "title": "Retirer les feuilles atteintes",
+        "description": "Enlevez les feuilles avec taches orangées avant la formation des spores estivales."
+      },
+      {
+        "title": "Variétés moins sensibles",
+        "description": "Certaines variétés de pommes sont plus touchées ; renseignez-vous pour les nouvelles plantations."
+      },
+      {
+        "title": "Protection au printemps",
+        "description": "Des fongicides homologués peuvent protéger les jeunes pousses au stade rose selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "grape_black_rot": {
+    "key": "grape_black_rot",
+    "title": "Pourriture noire de la vigne",
+    "category": "Fongique",
+    "description": "Guignardia bidwellii (syn. Phyllosticta) attaque feuilles, rameaux et baies par temps chaud et humide. Les lésions sur les grappes détruisent la récolte. L'inoculum persiste dans les débris et les baies momifiées.",
+    "symptoms": [
+      {
+        "text": "Taches circulaires brun rougeâtre sur les feuilles avec points noirs (pycnides).",
+        "isPrimary": true
+      },
+      {
+        "text": "Baies qui brunissent, rétrécissent puis deviennent des « momies » noires.",
+        "isPrimary": true
+      },
+      {
+        "text": "Lésions en forme de coup de feu sur les pétioles et rameaux.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Éclaircir les grappes",
+        "description": "Améliorez l'aération en supprimant l'excès de feuillage autour des grappes après nouaison."
+      },
+      {
+        "title": "Ramasser les momies",
+        "description": "Enlevez les baies momifiées accrochées et au sol en fin d'hiver pour réduire l'inoculum."
+      },
+      {
+        "title": "Tailler et aérer",
+        "description": "Maintenez une charpente ouverte et évitez l'arrosage par aspersion sur le feuillage."
+      },
+      {
+        "title": "Programme fongicide",
+        "description": "En vignoble sensible, des traitements homologués vigne au stade pré-floraison peuvent être planifiés selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "grape_esca_black_measles": {
+    "key": "grape_esca_black_measles",
+    "title": "Esca de la vigne",
+    "category": "Fongique",
+    "description": "Maladie du bois causée par plusieurs champignons lignivores (Phaeoacremonium, Phaeomoniella, Fomitiporia). Les infections passent par les plaies de taille. Elle provoque le dépérissement progressif des ceps et des symptômes foliaires par intermittence.",
+    "symptoms": [
+      {
+        "text": "Taches chlorotiques puis nécrotiques entre les nervures, aspect tigré ou brûlé.",
+        "isPrimary": true
+      },
+      {
+        "text": "Stries noires sur les sarments et bois interne décoloré à la coupe.",
+        "isPrimary": false
+      },
+      {
+        "text": "Dessèchement brutal d'une partie ou de tout le cep (« apoplexie »).",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Taille tardive et sèche",
+        "description": "Taillez par temps sec en fin d'hiver ; évitez les grosses plaies exposées aux pluies du printemps."
+      },
+      {
+        "title": "Protéger les plaies",
+        "description": "Appliquez un produit de cicatrisation de taille homologué ou recommandé pour limiter les infections du bois."
+      },
+      {
+        "title": "Retirer les ceps dépérissants",
+        "description": "Arrachez et brûlez les plants très atteints pour limiter la propagation dans la parcelle."
+      },
+      {
+        "title": "Pas de traitement foliaire curatif",
+        "description": "Les fongicides foliaires ne guérissent pas le bois ; la prévention passe par la taille et la santé du cep."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "grape_leaf_blight_isariopsis_leaf_spot": {
+    "key": "grape_leaf_blight_isariopsis_leaf_spot",
+    "title": "Brûlure foliaire de la vigne (Isariopsis)",
+    "category": "Fongique",
+    "description": "Pseudocercospora vitis (syn. Isariopsis clavispora) touche surtout les cultivars américains et hybrides en climat chaud et humide. Les taches foliaires réduisent la surface photosynthétique. La maladie est moins agressive que le mildiou mais peut s'accumuler sur feuillage stressé.",
+    "symptoms": [
+      {
+        "text": "Taches brun rouge à centre gris sur les feuilles, parfois entourées d'un halo rouge.",
+        "isPrimary": true
+      },
+      {
+        "text": "Nécrose des taches et chute prématurée des feuilles très atteintes.",
+        "isPrimary": false
+      },
+      {
+        "text": "Lésions allongées brunes sur les pétioles en cas sévère.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Améliorer la ventilation",
+        "description": "Palissage régulier et suppression du feuillage excessif pour sécher rapidement les feuilles après la pluie."
+      },
+      {
+        "title": "Équilibre nutritionnel",
+        "description": "Évitez l'excès d'azote qui favorise un feuillage dense et sensible aux maladies foliaires."
+      },
+      {
+        "title": "Nettoyer le sol",
+        "description": "Retirez les feuilles mortes en fin de saison pour diminuer l'inoculum résiduel."
+      },
+      {
+        "title": "Fongicide si nécessaire",
+        "description": "Un produit homologué vigne peut être utilisé selon l'étiquette lorsque les taches deviennent abondantes ; avis professionnel recommandé."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "corn_cercospora_leaf_spot_gray_leaf_spot": {
+    "key": "corn_cercospora_leaf_spot_gray_leaf_spot",
+    "title": "Cercosporiose et tache grise du maïs",
+    "category": "Fongique",
+    "description": "Cercospora zeae-maydis et Bipolaris maydis (tache grise) produisent des lésions foliaires en été chaud et humide. Les résidus de maïs au sol conservent l'inoculum. Une défoliation importante réduit le rendement en grain et ensilage.",
+    "symptoms": [
+      {
+        "text": "Petites taches rectangulaires grises à brunes entre les nervures (tache grise).",
+        "isPrimary": true
+      },
+      {
+        "text": "Taches allongées brun rouge avec bords bruns (cercosporiose).",
+        "isPrimary": false
+      },
+      {
+        "text": "Fusion des lésions et aspect brûlé du feuillage du bas vers le haut.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Rotation des cultures",
+        "description": "Alternez le maïs avec des non-hôtes (soja, luzerne) pour réduire l'inoculum sur les résidus."
+      },
+      {
+        "title": "Labour ou incorporation des résidus",
+        "description": "Enterrez les chaumes lorsque la rotation le permet pour accélérer la décomposition."
+      },
+      {
+        "title": "Hybrides tolérants",
+        "description": "Choisissez des variétés avec une bonne tolérance aux maladies foliaires adaptées à votre région."
+      },
+      {
+        "title": "Fongicide en culture grain",
+        "description": "Un traitement foliaire homologué maïs peut être envisagé au stade VT-R1 selon l'étiquette et l'avis d'un agronome."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "corn_common_rust": {
+    "key": "corn_common_rust",
+    "title": "Rouille commune du maïs",
+    "category": "Fongique",
+    "description": "Puccinia sorghi produit des pustules orangées sur les feuilles, favorisées par des nuits fraîches et humides. Le pathogène ne survit généralement pas l'hiver rigoureux au Canada sans source d'inoculum migrante. Les pertes sont modérées sauf en cas d'infection très précoce.",
+    "symptoms": [
+      {
+        "text": "Pustules rouille orangé à brun sur les deux faces des feuilles.",
+        "isPrimary": true
+      },
+      {
+        "text": "Taches allongées sur les gaines foliaires par temps humide.",
+        "isPrimary": false
+      },
+      {
+        "text": "Feuillage qui jaunit prématurément si l'infection est sévère.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Choisir des hybrides résistants",
+        "description": "Privilégiez des variétés portant des gènes de résistance spécifique ou générale à la rouille."
+      },
+      {
+        "title": "Date de semis adaptée",
+        "description": "Évitez des semis très précoces exposés à longue période de spores en climat favorable."
+      },
+      {
+        "title": "Surveillance précoce",
+        "description": "Inspectez le bas des feuilles à partir du stade V8-V10 pour décider si une intervention est utile."
+      },
+      {
+        "title": "Fongicide au besoin",
+        "description": "En cas de rouille précoce sévère, un fongicide homologué maïs peut être appliqué selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "corn_northern_leaf_blight": {
+    "key": "corn_northern_leaf_blight",
+    "title": "Brûlure nordique du maïs",
+    "category": "Fongique",
+    "description": "Exserohilum turcicum forme de longues lésions sur les feuilles par temps modéré et humide. L'inoculum persiste sur les résidus de maïs. Les hybrides sensibles peuvent perdre une grande partie du feuillage avant la maturité.",
+    "symptoms": [
+      {
+        "text": "Taches allongées gris vert à brunes de 3 à 15 cm, en forme de cigare.",
+        "isPrimary": true
+      },
+      {
+        "text": "Zones nécrotiques entourées de tissu chlorotique.",
+        "isPrimary": false
+      },
+      {
+        "text": "Atteinte des spathes et gaines en fin de saison humide.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Rotation et résidus",
+        "description": "Pratiquez une rotation d'au moins un an et réduisez les résidus de maïs en surface lorsque possible."
+      },
+      {
+        "title": "Hybrides résistants",
+        "description": "Sélectionnez des cultivars avec résistance à la race locale de brûlure nordique."
+      },
+      {
+        "title": "Équilibre cultural",
+        "description": "Évitez les populations excessives et les carences nutritives qui augmentent la sensibilité."
+      },
+      {
+        "title": "Traitement foliaire",
+        "description": "Un fongicide homologué peut être justifié si les lésions apparaissent avant le stade R1 selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "cherry_powdery_mildew": {
+    "key": "cherry_powdery_mildew",
+    "title": "Oïdium du cerisier",
+    "category": "Fongique",
+    "description": "Podosphaera clandestina infecte feuilles, tiges et fruits du cerisier doux par temps chaud et sec avec rosée nocturne. Le feutrage blanc réduit la photosynthèse et peut fissurer les fruits. Les infections précoces sont les plus dommageables pour la récolte.",
+    "symptoms": [
+      {
+        "text": "Feutrage blanc poudreux sur les feuilles et rameaux.",
+        "isPrimary": true
+      },
+      {
+        "text": "Feuilles recroquevillées, déformées ou avec taches chlorotiques.",
+        "isPrimary": false
+      },
+      {
+        "text": "Taches brunes sur les fruits (« tache de oïdium »).",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Tailler pour aérer",
+        "description": "Ouvrez la couronne pour favoriser la lumière et réduire l'humidité stagnante au cœur de l'arbre."
+      },
+      {
+        "title": "Arrosage au pied",
+        "description": "Évitez d'arroser le feuillage ; privilégiez l'irrigation goutte à goutte sous le houppier."
+      },
+      {
+        "title": "Surveillance au printemps",
+        "description": "Inspectez les jeunes pousses dès l'apparition du feutrage pour intervenir tôt si nécessaire."
+      },
+      {
+        "title": "Soufre ou fongicide",
+        "description": "Le soufre ou un fongicide homologué cerise peut être utilisé préventivement selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "orange_haunglongbing_citrus_greening": {
+    "key": "orange_haunglongbing_citrus_greening",
+    "title": "Huanglongbing (maladie du greening des agrumes)",
+    "category": "Bactérienne",
+    "description": "Maladie causée par des bactéries Candidatus Liberibacter, transmise par le psylle des agrumes Diaphorina citri. Il n'existe aucun traitement curatif pour l'arbre infecté. Les fruits restent verts, acides et la chute de production mène au dépérissement.",
+    "symptoms": [
+      {
+        "text": "Feuilles avec marbrure asymétrique jaune et vert, aspect zinc.",
+        "isPrimary": true
+      },
+      {
+        "text": "Fruits petits, asymétriques, qui restent verts sur une face.",
+        "isPrimary": true
+      },
+      {
+        "text": "Branches qui dépérissent et bois interne décoloré.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Aucun remède pour l'arbre infecté",
+        "description": "Retirez et détruisez les plants confirmés positifs selon les directives régionales ; ne replantez pas immédiatement sans plan de lutte."
+      },
+      {
+        "title": "Contrôler le psylle",
+        "description": "Surveillez les larves sur les pousses tendres ; les insecticides homologués agrumes ciblent le vecteur selon l'étiquette et l'avis professionnel."
+      },
+      {
+        "title": "Plants certifiés",
+        "description": "Utilisez uniquement du matériel de pépinière certifié indemne de HLB dans les zones à risque."
+      },
+      {
+        "title": "Signalement réglementaire",
+        "description": "En cas de suspicion en zone non endémique, contactez les autorités phytosanitaires : la maladie est sous surveillance stricte."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "peach_bacterial_spot": {
+    "key": "peach_bacterial_spot",
+    "title": "Tache bactérienne du pêcher",
+    "category": "Bactérienne",
+    "description": "Xanthomonas arboricola pv. pruni infecte feuilles, rameaux et fruits par temps chaud et pluvieux. Les blessures de grêle ou de taille facilitent l'entrée. Les fruits marqués perdent leur valeur commerciale et les gommes sur rameaux affaiblissent l'arbre.",
+    "symptoms": [
+      {
+        "text": "Petites taches anguleuses brunes sur les feuilles, parfois avec déchirure au centre.",
+        "isPrimary": true
+      },
+      {
+        "text": "Taches brunes enfoncées et craquelées sur les fruits.",
+        "isPrimary": true
+      },
+      {
+        "text": "Gommose et taches sur les rameaux d'un an.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Choisir des cultivars tolérants",
+        "description": "Certaines variétés de pêches et nectarines sont moins sensibles ; renseignez-vous pour votre région."
+      },
+      {
+        "title": "Éviter le stress mécanique",
+        "description": "Protégez les vergers de la grêle si possible et taillez par temps sec pour limiter les portes d'entrée."
+      },
+      {
+        "title": "Application de cuivre au dormance",
+        "description": "Des bouillies bordelaises au stade dormance peuvent réduire l'inoculum selon l'étiquette et la réglementation locale."
+      },
+      {
+        "title": "Pas d'antibiotique en jardin",
+        "description": "Les traitements antibactériens sont réservés aux productions commerciales encadrées ; consultez un arboriculteur pour un plan adapté."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "pepper_bell_bacterial_spot": {
+    "key": "pepper_bell_bacterial_spot",
+    "title": "Tache bactérienne du poivron",
+    "category": "Bactérienne",
+    "description": "Plusieurs espèces de Xanthomonas infectent feuilles et fruits du poivron par éclaboussures et outils contaminés. Les conditions chaudes et humides favorisent les épidémies en serre. Les fruits présentent des taches élevées qui les rendent invendables.",
+    "symptoms": [
+      {
+        "text": "Taches foliaires brunes anguleuses entourées d'un halo jaune.",
+        "isPrimary": true
+      },
+      {
+        "text": "Lésions surélevées et craquelées sur les fruits, parfois avec centre clair.",
+        "isPrimary": true
+      },
+      {
+        "text": "Défoliation et chute des fleurs en cas de forte pression.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Semences et plants sains",
+        "description": "Utilisez du matériel certifié ; ne travaillez pas les plants mouillés et désinfectez les outils de taille."
+      },
+      {
+        "title": "Rotation en plein champ",
+        "description": "N'alternez pas poivron et tomate au même emplacement sur plusieurs saisons."
+      },
+      {
+        "title": "Ventilation en serre",
+        "description": "Contrôlez l'humidité, espacez les plants et évitez l'arrosage du feuillage en fin de journée."
+      },
+      {
+        "title": "Cuivre ou bactéricide",
+        "description": "Des produits homologués poivron peuvent être appliqués préventivement selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "squash_powdery_mildew": {
+    "key": "squash_powdery_mildew",
+    "title": "Oïdium de la courge",
+    "category": "Fongique",
+    "description": "Podosphaera xanthii et Erysiphe cucurbitacearum colonisent feuilles et tiges par temps chaud avec nuits humides. Le feutrage blanc réduit la production et fait mûrir prématurément les fruits. Les cucurbitacées de fin de saison sont très exposées.",
+    "symptoms": [
+      {
+        "text": "Taches blanches poudreuses sur faces supérieure et inférieure des feuilles.",
+        "isPrimary": true
+      },
+      {
+        "text": "Feuilles qui jaunissent, se dessèchent et meurent progressivement.",
+        "isPrimary": false
+      },
+      {
+        "text": "Taches blanches sur tiges et pétioles en fin d'infection.",
+        "isPrimary": false
+      }
+    ],
+    "steps": [
+      {
+        "title": "Espacer et orienter les plants",
+        "description": "Plantez moins dense, alignez les rangs au vent dominant et évitez l'ombre excessive entre les plants."
+      },
+      {
+        "title": "Arrosage matinal au pied",
+        "description": "Ne mouillez pas le feuillage ; arrosez tôt pour limiter l'humidité nocturne prolongée."
+      },
+      {
+        "title": "Retirer les feuilles très atteintes",
+        "description": "Enlevez les premières feuilles colonisées pour ralentir la progression vers les fruits."
+      },
+      {
+        "title": "Soufre ou bicarbonate préventif",
+        "description": "Le soufre ou des fongicides homologués cucurbitacées peuvent être utilisés dès les premiers signes selon l'étiquette et l'avis professionnel."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  },
+  "strawberry_leaf_scorch": {
+    "key": "strawberry_leaf_scorch",
+    "title": "Brûlure des feuilles du fraisier",
+    "category": "Fongique",
+    "description": "Diplocarpon earlianum provoque des taches foliaires qui peuvent fusionner et dessécher le limbe. L'humidité et les variétés sensibles favorisent l'épidémie. Une défoliation sévère affaiblit les couronnes et réduit la fructification l'année suivante.",
+    "symptoms": [
+      {
+        "text": "Petites taches pourpres sur le dessus des feuilles, centre brun gris.",
+        "isPrimary": true
+      },
+      {
+        "text": "Bordure des taches entourée d'un halo pourpre ou brun rouge.",
+        "isPrimary": false
+      },
+      {
+        "text": "Feuilles entières brun rouge « brûlées » sans tache distincte en cas sévère.",
+        "isPrimary": true
+      }
+    ],
+    "steps": [
+      {
+        "title": "Choisir des variétés résistantes",
+        "description": "Pour de nouveaux plants, privilégiez des cultivars reconnus plus tolérants à la brûlure foliaire."
+      },
+      {
+        "title": "Mulch et assainissement",
+        "description": "Paillez après la plantation et retirez les vieilles feuilles malades en fin de saison."
+      },
+      {
+        "title": "Renouveler les plants",
+        "description": "Remplacez les parcelles âgées tous les 3 à 4 ans pour limiter l'accumulation de maladies."
+      },
+      {
+        "title": "Fongicide préventif",
+        "description": "Un produit homologué fraisier peut être appliqué au printemps selon l'étiquette et l'avis professionnel si les taches sont récurrentes."
+      }
+    ],
+    "disclaimer": "Ces conseils ne remplacent pas un avis professionnel. Diagnostic AgroScan indicatif ; consultez un agronome si les symptômes progressent."
+  }
+}

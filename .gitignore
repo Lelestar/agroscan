@@ -18,14 +18,18 @@ notebooks/.ipynb_checkpoints/
 data/tfds/
 data/plantdoc/
 
-# Trained/exported models
+# Trained/exported models (source); mobile bundle is tracked separately
 models/
+!mobile/assets/models/
+!mobile/assets/models/**
+mobile/assets/models/agroscan_baseline_dynamic_quant.tflite
 
 # Generated reports and experiment outputs
 reports/
 
-# Private/local project documents
-docs/
+# Private/local project documents (course PDFs, etc.)
+docs/*
+!docs/GRADCAM.md
 images/
 
 # LaTeX build artifacts
@@ -40,6 +44,13 @@ images/
 *.run.xml
 *.synctex.gz
 *.toc
+
+# Flutter build artifacts
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.pub-cache/
 
 # OS/editor noise
 .DS_Store
