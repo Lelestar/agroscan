@@ -6,3 +6,4 @@ pandas
 seaborn
 jupyter
 importlib_resources
+kagglehub
