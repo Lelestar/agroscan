@@ -6,10 +6,10 @@ The goal is to build a mobile-oriented plant disease diagnosis pipeline. A user 
 
 The project currently focuses on the AI pipeline:
 
-- PlantVillage baseline training with transfer learning.
-- Evaluation on a held-out PlantVillage test split.
-- Cross-dataset evaluation on PlantDoc for more realistic field images.
-- PlantDoc fine-tuning experiments to reduce the domain shift.
+- PlantVillage baseline training with transfer learning (jalon 2).
+- **Gradual domain adaptation** PlantVillage → PlantWild → PlantDoc (jalon 3, **model shipped in the app**).
+- Alternative experiments: merged PV+Wild dataset, full backbone unfreeze.
+- Cross-dataset evaluation on PlantDoc for realistic field images.
 - Grad-CAM visual explanation (notebooks + [mobile implementation](docs/GRADCAM.md)).
 - TensorFlow Lite export for Flutter mobile integration.
 
@@ -21,9 +21,10 @@ The project currently focuses on the AI pipeline:
 │   └── GRADCAM.md                # architecture Grad-CAM mobile (export, Dart, UI)
 ├── mobile/                       # Flutter app (Android, on-device TFLite)
 ├── notebooks/
-│   ├── jalon2_pipeline_baseline.ipynb    # first complete baseline pipeline
-│   ├── jalon2_pipeline_improved.ipynb    # stronger augmentation + PlantDoc fine-tuning
-│   └── jalon2_next_experiments.ipynb     # additional experiments and Grad-CAM audit
+│   ├── jalon2_pipeline_baseline.ipynb           # baseline PlantVillage → PlantDoc (historical reference)
+│   ├── jalon3_pipeline_plantwild.ipynb            # **production** — PV → PlantWild → PlantDoc bridge
+│   ├── jalon3_pipeline_merged_pv_wild.ipynb       # experiment — merged Kaggle PV+Wild dataset
+│   └── jalon3_pipeline_full_unfreeze.ipynb        # experiment — full backbone unfreeze on PlantDoc
 ├── scripts/
 │   ├── README.md                       # cross-platform script guide (Windows / macOS / Linux)
 │   ├── sync_mobile_assets.sh / .ps1    # export TFLite + Grad-CAM → mobile/assets
@@ -119,6 +120,20 @@ data/plantdoc/
 
 The notebook contains an explicit mapping from PlantDoc class names to PlantVillage labels. This avoids evaluating classes with mismatched or ambiguous names.
 
+### PlantWild
+
+PlantWild is used as a **terrain bridge** between PlantVillage (studio) and PlantDoc (field). Place it locally:
+
+```text
+data/plantwild/
+├── train/
+│   └── <class folders>/
+└── test/          # optional
+    └── <class folders>/
+```
+
+Download: [Kaggle — PlantWild](https://www.kaggle.com/datasets/thuanai1/plantwild) (or `kagglehub` in `jalon3_pipeline_plantwild.ipynb`). Classes are mapped to the 38 PlantVillage labels; unmapped classes are skipped.
+
 ## Running the Notebooks
 
 Start Jupyter:
@@ -128,59 +143,48 @@ source .venv/bin/activate
 ./scripts/tf_gpu_env.sh jupyter lab
 ```
 
-Then open:
+Then open the notebook that matches your goal:
 
-```text
-notebooks/jalon2_pipeline_baseline.ipynb
-```
+| Notebook | Role |
+|----------|------|
+| `jalon2_pipeline_baseline.ipynb` | Historical baseline (PV only, then PlantDoc FT) |
+| **`jalon3_pipeline_plantwild.ipynb`** | **Best PlantDoc model** — 3 phases: PV → PlantWild → PlantDoc |
+| `jalon3_pipeline_merged_pv_wild.ipynb` | Single merged Kaggle dataset (80 classes) + PlantDoc FT |
+| `jalon3_pipeline_full_unfreeze.ipynb` | Variant with 100% backbone unfreeze (high forgetting risk) |
 
-Recommended order:
+**Recommended for training the app model:** `jalon3_pipeline_plantwild.ipynb` → saves `models/agroscan_plantwild.keras`, then `./scripts/sync_mobile_assets.sh`.
 
-1. `notebooks/jalon2_pipeline_baseline.ipynb`
-2. `notebooks/jalon2_pipeline_improved.ipynb`
-3. `notebooks/jalon2_next_experiments.ipynb`
+### Mobile model in the app
 
-The baseline notebook performs:
+| Item | Value |
+|------|--------|
+| Keras checkpoint | `models/agroscan_plantwild.keras` |
+| Bundled TFLite | `mobile/assets/models/agroscan_baseline_float.tflite` (legacy filename) |
+| Fallback if plantwild missing | `models/agroscan_baseline.keras` |
 
-1. Environment and GPU checks.
-2. PlantVillage loading and split creation.
-3. MobileNetV3Small transfer-learning baseline.
-4. Test evaluation with accuracy, macro F1 and classification report.
-5. Confusion matrix and error analysis.
-6. Grad-CAM example generation.
-7. TensorFlow Lite export.
-8. PlantDoc evaluation on common classes.
-
-The improved notebook keeps the same mobile-compatible architecture, but adds stronger realistic augmentation and a second fine-tuning phase on PlantDoc. The next-experiments notebook compares additional options, audits Grad-CAM attention, and documents why some approaches, such as naive background masking, are not retained.
+After sync, `gradcam_classifier_weights.json` records `source_keras` (e.g. `agroscan_plantwild.keras`). The sync script prints `Using Keras model: ...` on export.
 
 ## Current Results
 
-Latest PlantVillage baseline run:
+Metrics below are on the **38-class PlantVillage label space**; PlantDoc test uses **236 images / 27 mapped classes** (same protocol as jalon 2).
 
-- Test accuracy: **94.98%**
-- Test macro F1: **93.63%**
-- Weighted F1: **94.90%**
-- Errors: **409 / 8145 images**
-- Local inference timing: **1.02 ms/image** in the current GPU environment
-- Dynamic-quantized TFLite export: **0.18 MB**
+### Jalon 2 — baseline (`jalon2_pipeline_baseline.ipynb`)
 
-Latest PlantDoc evaluation on common classes:
+| Dataset | Accuracy | Macro F1 |
+|---------|----------|----------|
+| PlantVillage test | **94.98%** | **93.63%** |
+| PlantDoc test | **22.88%** | **17.39%** |
 
-- Evaluated images: **236**
-- Common classes: **27**
-- Accuracy: **22.88%**
-- Macro F1: **17.39%**
-- Mean prediction confidence: **63.37%**
+### Jalon 3 — PlantWild bridge (`jalon3_pipeline_plantwild.ipynb`) — **shipped in mobile**
 
-Latest improved run after PlantDoc fine-tuning:
+| Dataset | Accuracy | Macro F1 | Notes |
+|---------|----------|----------|-------|
+| PlantVillage test | **42.77%** | **38.97%** | Strong catastrophic forgetting vs baseline (acceptable if target is field photos) |
+| PlantDoc test | **53.39%** | **52.13%** | Best project result on field images; mean confidence **59.78%** |
 
-- PlantVillage test accuracy: **71.34%**
-- PlantVillage macro F1: **63.02%**
-- PlantDoc accuracy: **37.29%**
-- PlantDoc macro F1: **31.19%**
-- Mean PlantDoc prediction confidence: **42.16%**
+Compared to the older jalon 2 “improved” PV→PlantDoc direct fine-tune (37.29% PlantDoc accuracy), the PlantWild bridge gains about **+16 pp** accuracy on PlantDoc.
 
-These results should be interpreted carefully. PlantVillage is a controlled dataset with centered leaves and clean backgrounds, so performance is optimistic compared with real mobile photos. The improved model performs better on PlantDoc, but loses a lot of PlantVillage accuracy, which shows the trade-off introduced by fine-tuning on a small real-world dataset. The current pipeline is functional, but not robust enough yet for reliable field diagnosis.
+PlantVillage numbers are optimistic for studio data; PlantDoc is closer to real mobile use. The app prioritizes **PlantDoc-style generalization** over retaining studio accuracy.
 
 ## Scripts
 
@@ -188,7 +192,7 @@ All helper scripts live under [`scripts/`](scripts/). See **[`scripts/README.md`
 
 | Script | Needed for the app? | When to run |
 |--------|---------------------|-------------|
-| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training or re-exporting `models/agroscan_baseline.keras`. Copies dual TFLite, Grad-CAM weights, and `labels.json` into `mobile/assets/models/`. Use `.sh` on Linux/macOS, `.ps1` on Windows (or Git Bash). |
+| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training: copies dual TFLite + Grad-CAM assets to `mobile/assets/models/`. **Default Keras:** `models/agroscan_plantwild.keras` (jalon3); override with `KERAS_MODEL=...`. |
 | [`export_mobile_explain_tflite.py`](scripts/export_mobile_explain_tflite.py) | (called by sync) | Manual use only if you are debugging the mobile export itself (same output as sync). |
 | [`export_mobile_tflite.py`](scripts/export_mobile_tflite.py) | **No** (optional) | Legacy / experiments: classification-only or quantized TFLite (~0.18 MB). The Flutter app uses the dual float model from `export_mobile_explain_tflite.py`, not this file. |
 | [`validate_advice_coverage.sh`](scripts/validate_advice_coverage.sh) / [`.ps1`](scripts/validate_advice_coverage.ps1) | **Yes** (content) | After editing `mobile/assets/advice/diseases_fr.json`. Or `cd mobile && dart run tool/validate_advice_coverage.dart` on any OS. |
@@ -238,7 +242,9 @@ Home -> Capture/Import -> Local analysis (TFLite) -> Result
 History (local SQLite)
 ```
 
-Preprocessing matches the baseline notebook: **224×224** images, **float32 pixels in [0, 255]**. MobileNetV3 `Rescaling` is **inside** the TFLite graph — do **not** divide by 255 in the app. To verify: `.venv/bin/python scripts/verify_mobile_preprocessing.py`
+Preprocessing matches training: **224×224** images, **float32 pixels in [0, 255]**. MobileNetV3 `Rescaling` is **inside** the TFLite graph — do **not** divide by 255 in the app.
+
+To verify input scale after export: `.venv/bin/python scripts/verify_mobile_preprocessing.py`
 
 The model output remains cautious: preliminary diagnosis only, not a definitive expert decision.
 

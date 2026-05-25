@@ -5,5 +5,10 @@
     7,
     7
   ],
-  "format": "float32_column_major_kernel"
+  "format": "float32_column_major_kernel",
+  "source_keras": "agroscan_plantwild.keras",
+  "source_keras_path": "/home/leonard/UQAC/8INF934 - Atelier Pratique IA I/Projet/AgroScan/models/agroscan_plantwild.keras",
+  "source_keras_md5": "cd1f97d593300654c436520aa567bcf4",
+  "tflite_asset": "agroscan_baseline_float.tflite",
+  "exported_at": "2026-05-25T15:55:28.119042+00:00"
 }

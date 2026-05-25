@@ -7,17 +7,22 @@ Same mobile preprocessing: float32 NHWC pixels in [0, 255].
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import struct
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_KERAS = ROOT / "models" / "agroscan_baseline.keras"
-DEFAULT_LABELS = ROOT / "models" / "labels.json"
+MODEL_DIR = ROOT / "models"
+# PlantWild bridge (jalon3) — best PlantDoc accuracy; fallback to baseline.
+DEFAULT_KERAS = MODEL_DIR / "agroscan_plantwild.keras"
+FALLBACK_KERAS = MODEL_DIR / "agroscan_baseline.keras"
+DEFAULT_LABELS = MODEL_DIR / "labels.json"
 MOBILE_DIR = ROOT / "mobile" / "assets" / "models"
 IMG_SIZE = (224, 224)
 CONV_SHAPE = (7, 7, 576)
@@ -56,16 +61,36 @@ def build_dual_output_model(full_model: tf.keras.Model) -> tf.keras.Model:
     )
 
 
-def export_classifier_weights(full_model: tf.keras.Model, dest: Path) -> None:
-    kernel, _bias = full_model.layers[4].get_weights()
+def _classifier_dense(full_model: tf.keras.Model) -> tf.keras.layers.Dense:
+    for layer in reversed(full_model.layers):
+        if isinstance(layer, tf.keras.layers.Dense):
+            return layer
+    raise ValueError("No Dense classifier layer found in Keras model")
+
+
+def export_classifier_weights(
+    full_model: tf.keras.Model,
+    dest: Path,
+    *,
+    keras_path: Path,
+    tflite_path: Path,
+) -> None:
+    dense = _classifier_dense(full_model)
+    kernel, _bias = dense.get_weights()
     if kernel.shape != (CONV_SHAPE[2], 38):
         raise ValueError(f"Unexpected dense kernel shape {kernel.shape}")
     dest.write_bytes(kernel.astype(np.float32).tobytes())
+    keras_bytes = keras_path.read_bytes()
     meta = {
         "channels": int(CONV_SHAPE[2]),
         "classes": int(kernel.shape[1]),
         "spatial": [int(CONV_SHAPE[0]), int(CONV_SHAPE[1])],
         "format": "float32_column_major_kernel",
+        "source_keras": keras_path.name,
+        "source_keras_path": str(keras_path.resolve()),
+        "source_keras_md5": hashlib.md5(keras_bytes).hexdigest(),
+        "tflite_asset": tflite_path.name,
+        "exported_at": datetime.now(timezone.utc).isoformat(),
     }
     dest.with_suffix(".json").write_text(json.dumps(meta, indent=2) + "\n")
 
@@ -97,7 +122,12 @@ def verify(tflite_bytes: bytes) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--keras", type=Path, default=DEFAULT_KERAS)
+    parser.add_argument(
+        "--keras",
+        type=Path,
+        default=None,
+        help=f"Keras model (default: {DEFAULT_KERAS.name}, else {FALLBACK_KERAS.name})",
+    )
     parser.add_argument("--labels", type=Path, default=DEFAULT_LABELS)
     parser.add_argument("--out-dir", type=Path, default=MOBILE_DIR)
     parser.add_argument(
@@ -106,14 +136,20 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if not args.keras.exists():
-        print(f"Missing Keras model: {args.keras}", file=sys.stderr)
+    keras_path = args.keras
+    if keras_path is None:
+        keras_path = DEFAULT_KERAS if DEFAULT_KERAS.exists() else FALLBACK_KERAS
+    if not keras_path.exists():
+        print(
+            f"Missing Keras model. Expected {DEFAULT_KERAS} or {FALLBACK_KERAS}",
+            file=sys.stderr,
+        )
         return 1
 
-    full_model = tf.keras.models.load_model(str(args.keras))
+    full_model = tf.keras.models.load_model(str(keras_path))
 
-    print(f"Building dual-output model from {args.keras}...")
-    tflite = export_tflite(args.keras)
+    print(f"Building dual-output model from {keras_path}...")
+    tflite = export_tflite(keras_path)
     print(f"Verifying TFLite ({len(tflite) / 1024:.0f} KB)...")
     verify(tflite)
 
@@ -123,7 +159,12 @@ def main() -> int:
     print(f"Wrote {out_path}")
 
     weights_path = args.out_dir / "gradcam_classifier_weights.bin"
-    export_classifier_weights(full_model, weights_path)
+    export_classifier_weights(
+        full_model,
+        weights_path,
+        keras_path=keras_path.resolve(),
+        tflite_path=out_path.resolve(),
+    )
     print(f"Wrote {weights_path} (+ .json)")
 
     labels_dest = args.out_dir / "labels.json"

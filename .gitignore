@@ -17,6 +17,7 @@ notebooks/.ipynb_checkpoints/
 # Local datasets and generated TensorFlow data
 data/tfds/
 data/plantdoc/
+data/plantwild/
 
 # Trained/exported models (source); mobile bundle is tracked separately
 models/

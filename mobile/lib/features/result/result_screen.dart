@@ -115,6 +115,11 @@ class _ResultBody extends ConsumerWidget {
                     display.headline,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
+                          color: display.isLowConfidence
+                              ? AgroColors.textMuted
+                              : display.isHealthy
+                                  ? AgroColors.success
+                                  : AgroColors.danger,
                         ),
                   ),
                   if (display.isLowConfidence) ...[

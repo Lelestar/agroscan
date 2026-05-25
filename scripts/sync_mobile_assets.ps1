@@ -13,14 +13,25 @@ if (-not (Test-Path $Python)) {
 
 New-Item -ItemType Directory -Force -Path $Dest | Out-Null
 
-$Keras = Join-Path $SrcModels "agroscan_baseline.keras"
+$Keras = $env:KERAS_MODEL
+if (-not $Keras) {
+    $Plantwild = Join-Path $SrcModels "agroscan_plantwild.keras"
+    $Baseline = Join-Path $SrcModels "agroscan_baseline.keras"
+    if (Test-Path $Plantwild) { $Keras = $Plantwild }
+    elseif (Test-Path $Baseline) { $Keras = $Baseline }
+    else {
+        Write-Error "Missing Keras model. Train jalon3 (agroscan_plantwild.keras) or baseline."
+        exit 1
+    }
+}
 if (-not (Test-Path $Keras)) {
-    Write-Error "Missing $Keras — train the model first."
+    Write-Error "Missing $Keras"
     exit 1
 }
+Write-Host "Using Keras model: $Keras"
 
 Write-Host "Exporting TFLite (predictions + conv features for Grad-CAM)..."
-& $Python (Join-Path $Root "scripts\export_mobile_explain_tflite.py")
+& $Python (Join-Path $Root "scripts\export_mobile_explain_tflite.py") --keras $Keras
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $Required = @(

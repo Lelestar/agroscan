@@ -14,13 +14,27 @@ fi
 
 mkdir -p "${DEST}"
 
-if [[ ! -f "${SRC_MODELS}/agroscan_baseline.keras" ]]; then
-  echo "Missing ${SRC_MODELS}/agroscan_baseline.keras — train the model first." >&2
+KERAS_MODEL="${KERAS_MODEL:-}"
+if [[ -z "${KERAS_MODEL}" ]]; then
+  if [[ -f "${SRC_MODELS}/agroscan_plantwild.keras" ]]; then
+    KERAS_MODEL="${SRC_MODELS}/agroscan_plantwild.keras"
+  elif [[ -f "${SRC_MODELS}/agroscan_baseline.keras" ]]; then
+    KERAS_MODEL="${SRC_MODELS}/agroscan_baseline.keras"
+  else
+    echo "Missing Keras model. Train jalon3 (agroscan_plantwild.keras) or baseline." >&2
+    exit 1
+  fi
+fi
+
+if [[ ! -f "${KERAS_MODEL}" ]]; then
+  echo "Missing ${KERAS_MODEL}" >&2
   exit 1
 fi
 
+echo "Using Keras model: ${KERAS_MODEL}"
+
 echo "Exporting TFLite (predictions + conv features for Grad-CAM)..."
-"${PYTHON}" "${ROOT}/scripts/export_mobile_explain_tflite.py"
+"${PYTHON}" "${ROOT}/scripts/export_mobile_explain_tflite.py" --keras "${KERAS_MODEL}"
 
 for file in \
   agroscan_baseline_float.tflite \

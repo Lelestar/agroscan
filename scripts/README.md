@@ -19,7 +19,9 @@ On **Windows**, you can also use **Git Bash** to run the `.sh` scripts if you pr
 
 ### `sync_mobile_assets.sh` / `sync_mobile_assets.ps1`
 
-**When:** after training or updating `models/agroscan_baseline.keras`, before running the Flutter app.
+**When:** after training or updating the Keras checkpoint, before running the Flutter app.
+
+**Default Keras:** `models/agroscan_plantwild.keras` (jalon3 notebook, best PlantDoc accuracy); falls back to `agroscan_baseline.keras`. Override: `KERAS_MODEL=/path/to/model.keras`.
 
 **Does:** runs `export_mobile_explain_tflite.py` and checks that these files exist under `mobile/assets/models/`:
 
@@ -40,6 +42,7 @@ On **Windows**, you can also use **Git Bash** to run the `.sh` scripts if you pr
 ```bash
 # Any OS (from repo root, venv activated)
 python scripts/export_mobile_explain_tflite.py
+python scripts/export_mobile_explain_tflite.py --keras models/agroscan_plantwild.keras
 ```
 
 ---
@@ -114,7 +117,7 @@ flutter run
 
 | Issue | Fix |
 |-------|-----|
-| `Missing agroscan_baseline.keras` | Train in notebooks; model should land in `models/` |
+| `Missing Keras model` | Train jalon3 (`agroscan_plantwild.keras`) or baseline; model should land in `models/` |
 | `flutter` not found | Install [Flutter SDK](https://docs.flutter.dev/get-started/install), run `flutter doctor` |
 | `.sh` permission denied (Linux/macOS) | `chmod +x scripts/*.sh` |
 | PowerShell execution policy | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` (or run `powershell -ExecutionPolicy Bypass -File scripts\sync_mobile_assets.ps1`) |

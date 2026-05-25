@@ -20,14 +20,19 @@ import numpy as np
 import tensorflow as tf
 
 ROOT = Path(__file__).resolve().parents[1]
-KERAS = ROOT / "models" / "agroscan_baseline.keras"
+_MODEL_DIR = ROOT / "models"
+KERAS = (
+    _MODEL_DIR / "agroscan_plantwild.keras"
+    if (_MODEL_DIR / "agroscan_plantwild.keras").exists()
+    else _MODEL_DIR / "agroscan_baseline.keras"
+)
 TFLITE = ROOT / "mobile" / "assets" / "models" / "agroscan_baseline_float.tflite"
 LABELS = ROOT / "mobile" / "assets" / "models" / "labels.json"
 
 
 def main() -> int:
     if not KERAS.exists() or not TFLITE.exists():
-        print("Missing models/agroscan_baseline.keras or mobile TFLite asset.", file=sys.stderr)
+        print(f"Missing {KERAS} or mobile TFLite asset.", file=sys.stderr)
         return 1
 
     labels = json.loads(LABELS.read_text(encoding="utf-8"))

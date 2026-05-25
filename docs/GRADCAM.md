@@ -319,7 +319,7 @@ flutter run
 
 ### Dependencies
 
-- Train/export: TensorFlow 2.x (`requirements.txt`), model `models/agroscan_baseline.keras`.
+- Train/export: TensorFlow 2.x (`requirements.txt`). Default Keras: `models/agroscan_plantwild.keras` (jalon3); fallback `agroscan_baseline.keras`. Run `./scripts/sync_mobile_assets.sh`.
 - Mobile: `tflite_flutter`; outputs detected by tensor shape (unchanged API vs. classification-only).
 
 ---
