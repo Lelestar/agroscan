@@ -42,8 +42,9 @@ class DiagnosisService {
     final result =
         await _runInference(_interpreter!, _labels, imageFile, _mapper);
     stopwatch.stop();
+    final display = _withTopLabels(result.display, result.topLabels);
     return InferenceResult(
-      display: result.display,
+      display: display,
       topLabels: result.topLabels,
       heatmap: result.heatmap,
       durationMs: stopwatch.elapsedMilliseconds,
@@ -59,7 +60,7 @@ class _RawInference {
   });
 
   final DiagnosisDisplay display;
-  final List<({String label, double score})> topLabels;
+  final List<DiagnosisPrediction> topLabels;
   final Float32List heatmap;
 }
 
@@ -97,7 +98,8 @@ Future<_RawInference> _runInference(
     }
   }
   if (probsTensor == null || convTensor == null) {
-    throw StateError('Unexpected TFLite outputs: ${outputs.map((t) => t.shape)}');
+    throw StateError(
+        'Unexpected TFLite outputs: ${outputs.map((t) => t.shape)}');
   }
 
   final logits = _readFloats(probsTensor).take(labels.length).toList();
@@ -140,7 +142,7 @@ Future<_RawInference> _runInference(
     display: mapper.map(labels[bestIndex], bestScore),
     topLabels: top3
         .take(3)
-        .map((i) => (label: labels[i], score: probabilities[i]))
+        .map((i) => _predictionFromLabel(mapper, labels[i], probabilities[i]))
         .toList(),
     heatmap: heatmap,
   );
@@ -175,8 +177,9 @@ Future<InferenceResult> analyzeInBackground(
       File(imagePath),
       LabelMapper(),
     );
+    final display = _withTopLabels(result.display, result.topLabels);
     return InferenceResult(
-      display: result.display,
+      display: display,
       topLabels: result.topLabels,
       heatmap: result.heatmap,
       durationMs: 0,
@@ -187,4 +190,35 @@ Future<InferenceResult> analyzeInBackground(
   } finally {
     interpreter?.close();
   }
+}
+
+DiagnosisDisplay _withTopLabels(
+  DiagnosisDisplay display,
+  List<DiagnosisPrediction> topLabels,
+) =>
+    DiagnosisDisplay(
+      plantName: display.plantName,
+      diseaseName: display.diseaseName,
+      headline: display.headline,
+      isHealthy: display.isHealthy,
+      confidence: display.confidence,
+      adviceKey: display.adviceKey,
+      rawLabel: display.rawLabel,
+      topLabels: topLabels,
+    );
+
+DiagnosisPrediction _predictionFromLabel(
+  LabelMapper mapper,
+  String label,
+  double score,
+) {
+  final mapped = mapper.map(label, score);
+  final displayName = mapped.isHealthy
+      ? '${mapped.plantName} - feuille saine'
+      : '${mapped.plantName} - ${mapped.diseaseName ?? mapped.headline}';
+  return DiagnosisPrediction(
+    label: label,
+    displayName: displayName,
+    score: score,
+  );
 }

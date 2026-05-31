@@ -52,7 +52,7 @@ flutter run
 
 Versioned under `assets/models/`:
 
-- `agroscan_baseline_float.tflite` — classification **+** conv features for Grad-CAM (exported from `models/agroscan_plantwild.keras` by default — PlantWild bridge, best PlantDoc accuracy)
+- `agroscan_baseline_float.tflite` — classification **+** conv features for Grad-CAM (exported from `models/jalon4_original_segmented_plantdoc_ft.keras` by default; filename kept for compatibility)
 - `gradcam_classifier_weights.bin` / `.json` — classifier weights for on-device attention map
 - `labels.json` (38 PlantVillage classes)
 

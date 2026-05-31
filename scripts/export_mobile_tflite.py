@@ -3,7 +3,7 @@
 
 The previous dynamic-quant export used an older converter path that produced
 ops unsupported by tflite_flutter on Android. This script exports from the
-Keras baseline with optimizations disabled or DEFAULT (verified: no READ_VARIABLE).
+Keras checkpoint with optimizations disabled or DEFAULT (verified: no READ_VARIABLE).
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ import numpy as np
 import tensorflow as tf
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_KERAS = ROOT / "models" / "agroscan_baseline.keras"
+DEFAULT_KERAS = ROOT / "models" / "jalon4_original_segmented_plantdoc_ft.keras"
 DEFAULT_LABELS = ROOT / "models" / "labels.json"
 MOBILE_DIR = ROOT / "mobile" / "assets" / "models"
 
@@ -27,7 +27,7 @@ def _bad_ops(interpreter: tf.lite.Interpreter) -> set[str]:
 
 
 def export_tflite(keras_path: Path, *, quantize: bool) -> bytes:
-    model = tf.keras.models.load_model(str(keras_path))
+    model = tf.keras.models.load_model(str(keras_path), compile=False)
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
     if quantize:
         converter.optimizations = [tf.lite.Optimize.DEFAULT]

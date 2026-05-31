@@ -6,9 +6,9 @@
     7
   ],
   "format": "float32_column_major_kernel",
-  "source_keras": "agroscan_plantwild.keras",
-  "source_keras_path": "/home/leonard/UQAC/8INF934 - Atelier Pratique IA I/Projet/AgroScan/models/agroscan_plantwild.keras",
-  "source_keras_md5": "cd1f97d593300654c436520aa567bcf4",
+  "source_keras": "jalon4_original_segmented_plantdoc_ft.keras",
+  "source_keras_path": "/home/leonard/UQAC/8INF934 - Atelier Pratique IA I/Projet/AgroScan/models/jalon4_original_segmented_plantdoc_ft.keras",
+  "source_keras_md5": "8db6ce66a1b61701e78b17ac9c78d59d",
   "tflite_asset": "agroscan_baseline_float.tflite",
-  "exported_at": "2026-05-25T15:55:28.119042+00:00"
+  "exported_at": "2026-05-31T14:59:28.434866+00:00"
 }

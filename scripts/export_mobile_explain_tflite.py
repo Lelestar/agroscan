@@ -19,9 +19,10 @@ import tensorflow as tf
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_DIR = ROOT / "models"
-# PlantWild bridge (jalon3) — best PlantDoc accuracy; fallback to baseline.
-DEFAULT_KERAS = MODEL_DIR / "agroscan_plantwild.keras"
-FALLBACK_KERAS = MODEL_DIR / "agroscan_baseline.keras"
+# Jalon 4 original+segmented PlantDoc fine-tuning is the current app model.
+DEFAULT_KERAS = MODEL_DIR / "jalon4_original_segmented_plantdoc_ft.keras"
+FALLBACK_KERAS = MODEL_DIR / "agroscan_plantwild.keras"
+BASELINE_KERAS = MODEL_DIR / "agroscan_baseline.keras"
 DEFAULT_LABELS = MODEL_DIR / "labels.json"
 MOBILE_DIR = ROOT / "mobile" / "assets" / "models"
 IMG_SIZE = (224, 224)
@@ -96,7 +97,7 @@ def export_classifier_weights(
 
 
 def export_tflite(keras_path: Path) -> bytes:
-    full_model = tf.keras.models.load_model(str(keras_path))
+    full_model = tf.keras.models.load_model(str(keras_path), compile=False)
     dual = build_dual_output_model(full_model)
     converter = tf.lite.TFLiteConverter.from_keras_model(dual)
     converter.optimizations = []
@@ -126,7 +127,7 @@ def main() -> int:
         "--keras",
         type=Path,
         default=None,
-        help=f"Keras model (default: {DEFAULT_KERAS.name}, else {FALLBACK_KERAS.name})",
+        help=f"Keras model (default: {DEFAULT_KERAS.name}, then {FALLBACK_KERAS.name}, then {BASELINE_KERAS.name})",
     )
     parser.add_argument("--labels", type=Path, default=DEFAULT_LABELS)
     parser.add_argument("--out-dir", type=Path, default=MOBILE_DIR)
@@ -138,15 +139,16 @@ def main() -> int:
 
     keras_path = args.keras
     if keras_path is None:
-        keras_path = DEFAULT_KERAS if DEFAULT_KERAS.exists() else FALLBACK_KERAS
-    if not keras_path.exists():
-        print(
-            f"Missing Keras model. Expected {DEFAULT_KERAS} or {FALLBACK_KERAS}",
-            file=sys.stderr,
+        keras_path = next(
+            (candidate for candidate in (DEFAULT_KERAS, FALLBACK_KERAS, BASELINE_KERAS) if candidate.exists()),
+            None,
         )
+    if keras_path is None or not keras_path.exists():
+        expected = ", ".join(str(p) for p in (DEFAULT_KERAS, FALLBACK_KERAS, BASELINE_KERAS))
+        print(f"Missing Keras model. Expected one of: {expected}", file=sys.stderr)
         return 1
 
-    full_model = tf.keras.models.load_model(str(keras_path))
+    full_model = tf.keras.models.load_model(str(keras_path), compile=False)
 
     print(f"Building dual-output model from {keras_path}...")
     tflite = export_tflite(keras_path)

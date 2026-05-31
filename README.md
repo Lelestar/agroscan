@@ -7,9 +7,10 @@ The goal is to build a mobile-oriented plant disease diagnosis pipeline. A user 
 The project currently focuses on the AI pipeline:
 
 - PlantVillage baseline training with transfer learning (jalon 2).
-- **Gradual domain adaptation** PlantVillage → PlantWild → PlantDoc (jalon 3, **model shipped in the app**).
+- **Gradual domain adaptation** PlantVillage → PlantWild → PlantDoc (jalon 3 reference).
 - Alternative experiments: merged PV+Wild dataset, full backbone unfreeze.
 - Cross-dataset evaluation on PlantDoc for realistic field images.
+- Jalon 4 experiments for field robustness: mixed training and leaf segmentation.
 - Grad-CAM visual explanation (notebooks + [mobile implementation](docs/GRADCAM.md)).
 - TensorFlow Lite export for Flutter mobile integration.
 
@@ -24,7 +25,12 @@ The project currently focuses on the AI pipeline:
 │   ├── jalon2_pipeline_baseline.ipynb           # baseline PlantVillage → PlantDoc (historical reference)
 │   ├── jalon3_pipeline_plantwild.ipynb            # **production** — PV → PlantWild → PlantDoc bridge
 │   ├── jalon3_pipeline_merged_pv_wild.ipynb       # experiment — merged Kaggle PV+Wild dataset
-│   └── jalon3_pipeline_full_unfreeze.ipynb        # experiment — full backbone unfreeze on PlantDoc
+│   ├── jalon3_pipeline_full_unfreeze.ipynb        # experiment — full backbone unfreeze on PlantDoc
+│   ├── jalon4_mixte_training.ipynb                # experiment — mixed PV/Wild/PlantDoc training
+│   ├── jalon4_segmentation_experiment.ipynb       # experiment — PlantDoc leaf segmentation
+│   ├── jalon4_multidomain_balanced.ipynb          # experiment — balanced PlantDoc/segmented/Wild/PV replay
+│   ├── jalon4_cam_mobile_vs_gradcam.ipynb         # audit — mobile CAM vs Keras Grad-CAM
+│   └── jalon4_plant_and_deseases.ipynb            # experiment — hierarchical plant then disease classification
 ├── scripts/
 │   ├── README.md                       # cross-platform script guide (Windows / macOS / Linux)
 │   ├── sync_mobile_assets.sh / .ps1    # export TFLite + Grad-CAM → mobile/assets
@@ -151,18 +157,23 @@ Then open the notebook that matches your goal:
 | **`jalon3_pipeline_plantwild.ipynb`** | **Best PlantDoc model** — 3 phases: PV → PlantWild → PlantDoc |
 | `jalon3_pipeline_merged_pv_wild.ipynb` | Single merged Kaggle dataset (80 classes) + PlantDoc FT |
 | `jalon3_pipeline_full_unfreeze.ipynb` | Variant with 100% backbone unfreeze (high forgetting risk) |
+| `jalon4_mixte_training.ipynb` | Mixed PV/Wild/PlantDoc training for field robustness |
+| `jalon4_segmentation_experiment.ipynb` | PlantDoc segmentation experiment and original+segmented fine-tuning |
+| `jalon4_multidomain_balanced.ipynb` | Balanced multidomain training: PlantDoc original/segmented + PlantWild + PV replay |
+| `jalon4_cam_mobile_vs_gradcam.ipynb` | Visual audit comparing mobile CAM, Keras CAM, and Keras Grad-CAM |
+| `jalon4_plant_and_deseases.ipynb` | Jalon 4 hierarchical experiment: plant classifier first, then per-plant disease specialists |
 
-**Recommended for training the app model:** `jalon3_pipeline_plantwild.ipynb` → saves `models/agroscan_plantwild.keras`, then `./scripts/sync_mobile_assets.sh`.
+**Recommended for the app model:** `jalon4_segmentation_experiment.ipynb` → saves `models/jalon4_original_segmented_plantdoc_ft.keras`, then `./scripts/sync_mobile_assets.sh`.
 
 ### Mobile model in the app
 
 | Item | Value |
 |------|--------|
-| Keras checkpoint | `models/agroscan_plantwild.keras` |
+| Keras checkpoint | `models/jalon4_original_segmented_plantdoc_ft.keras` |
 | Bundled TFLite | `mobile/assets/models/agroscan_baseline_float.tflite` (legacy filename) |
-| Fallback if plantwild missing | `models/agroscan_baseline.keras` |
+| Fallbacks if jalon4 model missing | `models/agroscan_plantwild.keras`, then `models/agroscan_baseline.keras` |
 
-After sync, `gradcam_classifier_weights.json` records `source_keras` (e.g. `agroscan_plantwild.keras`). The sync script prints `Using Keras model: ...` on export.
+After sync, `gradcam_classifier_weights.json` records `source_keras` (e.g. `jalon4_original_segmented_plantdoc_ft.keras`). The sync script prints `Using Keras model: ...` on export.
 
 ## Current Results
 
@@ -175,7 +186,7 @@ Metrics below are on the **38-class PlantVillage label space**; PlantDoc test us
 | PlantVillage test | **94.98%** | **93.63%** |
 | PlantDoc test | **22.88%** | **17.39%** |
 
-### Jalon 3 — PlantWild bridge (`jalon3_pipeline_plantwild.ipynb`) — **shipped in mobile**
+### Jalon 3 — PlantWild bridge (`jalon3_pipeline_plantwild.ipynb`)
 
 | Dataset | Accuracy | Macro F1 | Notes |
 |---------|----------|----------|-------|
@@ -192,7 +203,7 @@ All helper scripts live under [`scripts/`](scripts/). See **[`scripts/README.md`
 
 | Script | Needed for the app? | When to run |
 |--------|---------------------|-------------|
-| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training: copies dual TFLite + Grad-CAM assets to `mobile/assets/models/`. **Default Keras:** `models/agroscan_plantwild.keras` (jalon3); override with `KERAS_MODEL=...`. |
+| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training: copies dual TFLite + Grad-CAM assets to `mobile/assets/models/`. **Default Keras:** `models/jalon4_original_segmented_plantdoc_ft.keras` (jalon4); override with `KERAS_MODEL=...`. |
 | [`export_mobile_explain_tflite.py`](scripts/export_mobile_explain_tflite.py) | (called by sync) | Manual use only if you are debugging the mobile export itself (same output as sync). |
 | [`export_mobile_tflite.py`](scripts/export_mobile_tflite.py) | **No** (optional) | Legacy / experiments: classification-only or quantized TFLite (~0.18 MB). The Flutter app uses the dual float model from `export_mobile_explain_tflite.py`, not this file. |
 | [`validate_advice_coverage.sh`](scripts/validate_advice_coverage.sh) / [`.ps1`](scripts/validate_advice_coverage.ps1) | **Yes** (content) | After editing `mobile/assets/advice/diseases_fr.json`. Or `cd mobile && dart run tool/validate_advice_coverage.dart` on any OS. |

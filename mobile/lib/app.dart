@@ -26,9 +26,10 @@ class _AgroScanAppState extends ConsumerState<AgroScanApp> {
     try {
       await initializeDateFormatting('fr');
     } finally {
-      if (!mounted) return;
-      setState(() => _ready = true);
-      WidgetsBinding.instance.allowFirstFrame();
+      if (mounted) {
+        setState(() => _ready = true);
+        WidgetsBinding.instance.allowFirstFrame();
+      }
     }
   }
 

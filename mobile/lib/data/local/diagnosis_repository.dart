@@ -177,6 +177,13 @@ class DiagnosisRepository {
         'confidence': d.confidence,
         'adviceKey': d.adviceKey,
         'rawLabel': d.rawLabel,
+        'topLabels': d.topLabels
+            .map((p) => {
+                  'label': p.label,
+                  'displayName': p.displayName,
+                  'score': p.score,
+                })
+            .toList(),
       };
 
   DiagnosisDisplay _displayFromJson(Map<String, dynamic> json) =>
@@ -188,5 +195,15 @@ class DiagnosisRepository {
         confidence: (json['confidence'] as num).toDouble(),
         adviceKey: json['adviceKey'] as String,
         rawLabel: json['rawLabel'] as String,
+        topLabels: ((json['topLabels'] as List<dynamic>?) ?? const [])
+            .map(
+              (item) => DiagnosisPrediction(
+                label: (item as Map<String, dynamic>)['label'] as String,
+                displayName:
+                    item['displayName'] as String? ?? item['label'] as String,
+                score: (item['score'] as num).toDouble(),
+              ),
+            )
+            .toList(),
       );
 }

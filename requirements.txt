@@ -7,3 +7,6 @@ seaborn
 jupyter
 importlib_resources
 kagglehub
+rembg[cpu]
+opencv-python-headless
+pillow

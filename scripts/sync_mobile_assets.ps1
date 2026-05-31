@@ -15,12 +15,14 @@ New-Item -ItemType Directory -Force -Path $Dest | Out-Null
 
 $Keras = $env:KERAS_MODEL
 if (-not $Keras) {
+    $Jalon4 = Join-Path $SrcModels "jalon4_original_segmented_plantdoc_ft.keras"
     $Plantwild = Join-Path $SrcModels "agroscan_plantwild.keras"
     $Baseline = Join-Path $SrcModels "agroscan_baseline.keras"
-    if (Test-Path $Plantwild) { $Keras = $Plantwild }
+    if (Test-Path $Jalon4) { $Keras = $Jalon4 }
+    elseif (Test-Path $Plantwild) { $Keras = $Plantwild }
     elseif (Test-Path $Baseline) { $Keras = $Baseline }
     else {
-        Write-Error "Missing Keras model. Train jalon3 (agroscan_plantwild.keras) or baseline."
+        Write-Error "Missing Keras model. Train jalon4 (jalon4_original_segmented_plantdoc_ft.keras), jalon3, or baseline."
         exit 1
     }
 }

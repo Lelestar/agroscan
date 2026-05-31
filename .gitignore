@@ -18,6 +18,7 @@ notebooks/.ipynb_checkpoints/
 data/tfds/
 data/plantdoc/
 data/plantwild/
+data/segmented/
 
 # Trained/exported models (source); mobile bundle is tracked separately
 models/
