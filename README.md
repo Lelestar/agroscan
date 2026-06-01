@@ -30,7 +30,8 @@ The project currently focuses on the AI pipeline:
 │   ├── jalon4_segmentation_experiment.ipynb       # experiment — PlantDoc leaf segmentation
 │   ├── jalon4_multidomain_balanced.ipynb          # experiment — balanced PlantDoc/segmented/Wild/PV replay
 │   ├── jalon4_cam_mobile_vs_gradcam.ipynb         # audit — mobile CAM vs Keras Grad-CAM
-│   └── jalon4_plant_and_deseases.ipynb            # experiment — hierarchical plant then disease classification
+│   ├── jalon4_plant_and_deseases.ipynb            # experiment — hierarchical plant then disease classification
+│   └── jalon4_two_head.ipynb                      # experiment — shared backbone with plant and disease heads
 ├── scripts/
 │   ├── README.md                       # cross-platform script guide (Windows / macOS / Linux)
 │   ├── sync_mobile_assets.sh / .ps1    # export TFLite + Grad-CAM → mobile/assets
@@ -162,6 +163,7 @@ Then open the notebook that matches your goal:
 | `jalon4_multidomain_balanced.ipynb` | Balanced multidomain training: PlantDoc original/segmented + PlantWild + PV replay |
 | `jalon4_cam_mobile_vs_gradcam.ipynb` | Visual audit comparing mobile CAM, Keras CAM, and Keras Grad-CAM |
 | `jalon4_plant_and_deseases.ipynb` | Jalon 4 hierarchical experiment: plant classifier first, then per-plant disease specialists |
+| `jalon4_two_head.ipynb` | Jalon 4 multi-head experiment: shared backbone with parallel plant and disease heads |
 
 **Recommended for the app model:** `jalon4_segmentation_experiment.ipynb` → saves `models/jalon4_original_segmented_plantdoc_ft.keras`, then `./scripts/sync_mobile_assets.sh`.
 
@@ -177,25 +179,41 @@ After sync, `gradcam_classifier_weights.json` records `source_keras` (e.g. `jalo
 
 ## Current Results
 
-Metrics below are on the **38-class PlantVillage label space**; PlantDoc test uses **236 images / 27 mapped classes** (same protocol as jalon 2).
+Current metrics focus on **Jalon 4**, using the 38-class PlantVillage label space. PlantDoc test contains **236 images / 27 mapped classes** and is the closest evaluation set to real mobile use.
 
-### Jalon 2 — baseline (`jalon2_pipeline_baseline.ipynb`)
+### Jalon 4 — current app model
 
-| Dataset | Accuracy | Macro F1 |
-|---------|----------|----------|
-| PlantVillage test | **94.98%** | **93.63%** |
-| PlantDoc test | **22.88%** | **17.39%** |
+Current app checkpoint: `models/jalon4_original_segmented_plantdoc_ft.keras`.
 
-### Jalon 3 — PlantWild bridge (`jalon3_pipeline_plantwild.ipynb`)
+This model is fine-tuned with both PlantDoc original images and their segmented versions. It is used for the Flutter app export through `./scripts/sync_mobile_assets.sh`.
 
-| Dataset | Accuracy | Macro F1 | Notes |
-|---------|----------|----------|-------|
-| PlantVillage test | **42.77%** | **38.97%** | Strong catastrophic forgetting vs baseline (acceptable if target is field photos) |
-| PlantDoc test | **53.39%** | **52.13%** | Best project result on field images; mean confidence **59.78%** |
+| Test set | Top-1 Accuracy | Macro F1 | Mean confidence |
+|----------|----------------|----------|-----------------|
+| PlantDoc original | **51.69%** | **50.17%** | **57.88%** |
+| PlantDoc segmented | **50.85%** | **45.23%** | **55.21%** |
 
-Compared to the older jalon 2 “improved” PV→PlantDoc direct fine-tune (37.29% PlantDoc accuracy), the PlantWild bridge gains about **+16 pp** accuracy on PlantDoc.
+Top-k accuracy for the same app model:
 
-PlantVillage numbers are optimistic for studio data; PlantDoc is closer to real mobile use. The app prioritizes **PlantDoc-style generalization** over retaining studio accuracy.
+| Test set | Top-1 | Top-2 | Top-3 |
+|----------|-------|-------|-------|
+| PlantDoc original | **51.69%** | **67.37%** | **77.54%** |
+| PlantDoc segmented | **50.85%** | **67.80%** | **75.85%** |
+
+The top-3 result motivates the mobile UI: the app shows the main prediction plus the next likely hypotheses instead of presenting a single diagnosis as certain.
+
+### Segmentation experiment
+
+Segmentation alone does not improve the original Jalon 4 model immediately: on PlantDoc, it keeps the same top-1 accuracy but changes many predictions. The gain appears after fine-tuning with segmented data.
+
+| Model / setting | Test set | Accuracy | Macro F1 |
+|-----------------|----------|----------|----------|
+| Jalon 4 model before segmentation fine-tuning | PlantDoc original | **44.49%** | **42.20%** |
+| Jalon 4 model before segmentation fine-tuning | PlantDoc segmented | **44.49%** | **42.10%** |
+| Segmented-only fine-tuning | PlantDoc segmented | **52.12%** | **50.18%** |
+| Original + segmented fine-tuning | PlantDoc original | **51.69%** | **50.17%** |
+| Original + segmented fine-tuning | PlantDoc segmented | **50.85%** | **45.23%** |
+
+The current app model keeps the best compromise for mobile use because it remains usable on original photos while benefiting from segmented data during training.
 
 ## Scripts
 

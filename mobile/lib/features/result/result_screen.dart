@@ -152,8 +152,7 @@ class _ResultBody extends ConsumerWidget {
     final display = record.display;
     final imagePath = record.imagePath;
     final origin = ref.watch(diagnosisResultOriginProvider);
-    final canRetry = origin == DiagnosisResultOrigin.scanFlow ||
-        origin == DiagnosisResultOrigin.home;
+    final canRetry = origin == DiagnosisResultOrigin.scanFlow;
 
     return SingleChildScrollView(
       padding: AgroColors.screenScrollPadding,
