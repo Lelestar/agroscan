@@ -16,7 +16,7 @@ import numpy as np
 import tensorflow as tf
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_KERAS = ROOT / "models" / "jalon4_original_segmented_plantdoc_ft.keras"
+DEFAULT_KERAS = ROOT / "models" / "jalon5_weak_classes_best.keras"
 DEFAULT_LABELS = ROOT / "models" / "labels.json"
 MOBILE_DIR = ROOT / "mobile" / "assets" / "models"
 

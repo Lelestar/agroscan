@@ -11,7 +11,6 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^3.3.1
   go_router: ^17.2.3
-  google_fonts: ^8.1.0
   camera: ^0.12.0+1
   image_picker: ^1.2.2
   permission_handler: ^12.0.1
@@ -40,6 +39,17 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Manrope-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Manrope-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Manrope-Bold.ttf
+          weight: 700
   assets:
     - assets/branding/agroscan_logo.svg
     - assets/models/agroscan_baseline_float.tflite

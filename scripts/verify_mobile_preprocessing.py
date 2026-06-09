@@ -22,6 +22,7 @@ import tensorflow as tf
 ROOT = Path(__file__).resolve().parents[1]
 _MODEL_DIR = ROOT / "models"
 KERAS_CANDIDATES = (
+    _MODEL_DIR / "jalon5_weak_classes_best.keras",
     _MODEL_DIR / "jalon4_original_segmented_plantdoc_ft.keras",
     _MODEL_DIR / "agroscan_plantwild.keras",
     _MODEL_DIR / "agroscan_baseline.keras",

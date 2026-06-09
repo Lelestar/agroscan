@@ -21,7 +21,7 @@ On **Windows**, you can also use **Git Bash** to run the `.sh` scripts if you pr
 
 **When:** after training or updating the Keras checkpoint, before running the Flutter app.
 
-**Default Keras:** `models/jalon4_original_segmented_plantdoc_ft.keras`; falls back to `agroscan_plantwild.keras`, then `agroscan_baseline.keras`. Override: `KERAS_MODEL=/path/to/model.keras`.
+**Default Keras:** `models/jalon5_weak_classes_best.keras`; falls back to `jalon4_original_segmented_plantdoc_ft.keras`, then `agroscan_plantwild.keras`, then `agroscan_baseline.keras`. Override: `KERAS_MODEL=/path/to/model.keras`.
 
 **Does:** runs `export_mobile_explain_tflite.py` and checks that these files exist under `mobile/assets/models/`:
 
@@ -42,7 +42,7 @@ On **Windows**, you can also use **Git Bash** to run the `.sh` scripts if you pr
 ```bash
 # Any OS (from repo root, venv activated)
 python scripts/export_mobile_explain_tflite.py
-python scripts/export_mobile_explain_tflite.py --keras models/jalon4_original_segmented_plantdoc_ft.keras
+python scripts/export_mobile_explain_tflite.py --keras models/jalon5_weak_classes_best.keras
 ```
 
 ---
@@ -117,7 +117,7 @@ flutter run
 
 | Issue | Fix |
 |-------|-----|
-| `Missing Keras model` | Train jalon4 (`jalon4_original_segmented_plantdoc_ft.keras`), jalon3, or baseline; model should land in `models/` |
+| `Missing Keras model` | Train jalon5 (`jalon5_weak_classes_best.keras`), jalon4, jalon3, or baseline; model should land in `models/` |
 | `flutter` not found | Install [Flutter SDK](https://docs.flutter.dev/get-started/install), run `flutter doctor` |
 | `.sh` permission denied (Linux/macOS) | `chmod +x scripts/*.sh` |
 | PowerShell execution policy | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` (or run `powershell -ExecutionPolicy Bypass -File scripts\sync_mobile_assets.ps1`) |

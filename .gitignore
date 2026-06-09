@@ -33,6 +33,7 @@ reports/
 docs/*
 !docs/GRADCAM.md
 images/
+rapport/
 
 # LaTeX build artifacts
 *.aux

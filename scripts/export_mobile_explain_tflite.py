@@ -20,7 +20,7 @@ import tensorflow as tf
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_DIR = ROOT / "models"
 # Jalon 4 original+segmented PlantDoc fine-tuning is the current app model.
-DEFAULT_KERAS = MODEL_DIR / "jalon4_original_segmented_plantdoc_ft.keras"
+DEFAULT_KERAS = MODEL_DIR / "jalon5_weak_classes_best.keras"
 FALLBACK_KERAS = MODEL_DIR / "agroscan_plantwild.keras"
 BASELINE_KERAS = MODEL_DIR / "agroscan_baseline.keras"
 DEFAULT_LABELS = MODEL_DIR / "labels.json"

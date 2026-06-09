@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../shared/widgets/agro_top_bar_style.dart';
 import 'agro_colors.dart';
 
@@ -18,7 +16,8 @@ abstract final class AgroTheme {
       ),
     );
 
-    final textTheme = GoogleFonts.dmSansTextTheme(base.textTheme).apply(
+    final textTheme = base.textTheme.apply(
+      fontFamily: 'Manrope',
       bodyColor: AgroColors.textPrimary,
       displayColor: AgroColors.textPrimary,
     );

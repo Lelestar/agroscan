@@ -16,14 +16,16 @@ mkdir -p "${DEST}"
 
 KERAS_MODEL="${KERAS_MODEL:-}"
 if [[ -z "${KERAS_MODEL}" ]]; then
-  if [[ -f "${SRC_MODELS}/jalon4_original_segmented_plantdoc_ft.keras" ]]; then
+  if [[ -f "${SRC_MODELS}/jalon5_weak_classes_best.keras" ]]; then
+    KERAS_MODEL="${SRC_MODELS}/jalon5_weak_classes_best.keras"
+  elif [[ -f "${SRC_MODELS}/jalon4_original_segmented_plantdoc_ft.keras" ]]; then
     KERAS_MODEL="${SRC_MODELS}/jalon4_original_segmented_plantdoc_ft.keras"
   elif [[ -f "${SRC_MODELS}/agroscan_plantwild.keras" ]]; then
     KERAS_MODEL="${SRC_MODELS}/agroscan_plantwild.keras"
   elif [[ -f "${SRC_MODELS}/agroscan_baseline.keras" ]]; then
     KERAS_MODEL="${SRC_MODELS}/agroscan_baseline.keras"
   else
-    echo "Missing Keras model. Train jalon4 (jalon4_original_segmented_plantdoc_ft.keras), jalon3, or baseline." >&2
+    echo "Missing Keras model. Train jalon5 (jalon5_weak_classes_best.keras), jalon4, jalon3, or baseline." >&2
     exit 1
   fi
 fi

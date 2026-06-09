@@ -11,6 +11,7 @@ The project currently focuses on the AI pipeline:
 - Alternative experiments: merged PV+Wild dataset, full backbone unfreeze.
 - Cross-dataset evaluation on PlantDoc for realistic field images.
 - Jalon 4 experiments for field robustness: mixed training and leaf segmentation.
+- Jalon 5 final experiments: weak-class reinforcement and multi-head + segmentation.
 - Grad-CAM visual explanation (notebooks + [mobile implementation](docs/GRADCAM.md)).
 - TensorFlow Lite export for Flutter mobile integration.
 
@@ -31,7 +32,9 @@ The project currently focuses on the AI pipeline:
 │   ├── jalon4_multidomain_balanced.ipynb          # experiment — balanced PlantDoc/segmented/Wild/PV replay
 │   ├── jalon4_cam_mobile_vs_gradcam.ipynb         # audit — mobile CAM vs Keras Grad-CAM
 │   ├── jalon4_plant_and_deseases.ipynb            # experiment — hierarchical plant then disease classification
-│   └── jalon4_two_head.ipynb                      # experiment — shared backbone with plant and disease heads
+│   ├── jalon4_two_head.ipynb                      # experiment — shared backbone with plant and disease heads
+│   ├── jalon5_weak_classes_finetuning.ipynb       # final experiment — weak-class weighting / targeted augmentation
+│   └── jalon5_twohead_segm.ipynb                  # final experiment — multi-head + PlantDoc original/segmented
 ├── scripts/
 │   ├── README.md                       # cross-platform script guide (Windows / macOS / Linux)
 │   ├── sync_mobile_assets.sh / .ps1    # export TFLite + Grad-CAM → mobile/assets
@@ -155,7 +158,7 @@ Then open the notebook that matches your goal:
 | Notebook | Role |
 |----------|------|
 | `jalon2_pipeline_baseline.ipynb` | Historical baseline (PV only, then PlantDoc FT) |
-| **`jalon3_pipeline_plantwild.ipynb`** | **Best PlantDoc model** — 3 phases: PV → PlantWild → PlantDoc |
+| `jalon3_pipeline_plantwild.ipynb` | PlantWild bridge model — 3 phases: PV → PlantWild → PlantDoc |
 | `jalon3_pipeline_merged_pv_wild.ipynb` | Single merged Kaggle dataset (80 classes) + PlantDoc FT |
 | `jalon3_pipeline_full_unfreeze.ipynb` | Variant with 100% backbone unfreeze (high forgetting risk) |
 | `jalon4_mixte_training.ipynb` | Mixed PV/Wild/PlantDoc training for field robustness |
@@ -164,56 +167,75 @@ Then open the notebook that matches your goal:
 | `jalon4_cam_mobile_vs_gradcam.ipynb` | Visual audit comparing mobile CAM, Keras CAM, and Keras Grad-CAM |
 | `jalon4_plant_and_deseases.ipynb` | Jalon 4 hierarchical experiment: plant classifier first, then per-plant disease specialists |
 | `jalon4_two_head.ipynb` | Jalon 4 multi-head experiment: shared backbone with parallel plant and disease heads |
+| `jalon5_weak_classes_finetuning.ipynb` | Jalon 5 final weak-class reinforcement: class weights, targeted augmentation, and combined variant |
+| `jalon5_twohead_segm.ipynb` | Jalon 5 final multi-head + PlantDoc original/segmented experiment |
 
-**Recommended for the app model:** `jalon4_segmentation_experiment.ipynb` → saves `models/jalon4_original_segmented_plantdoc_ft.keras`, then `./scripts/sync_mobile_assets.sh`.
+**Recommended final app model:** `jalon5_weak_classes_finetuning.ipynb` → saves `models/jalon5_weak_classes_best.keras`, then `./scripts/sync_mobile_assets.sh`. The previous Jalon 4 app model remains a fallback.
 
 ### Mobile model in the app
 
 | Item | Value |
 |------|--------|
-| Keras checkpoint | `models/jalon4_original_segmented_plantdoc_ft.keras` |
+| Keras checkpoint | `models/jalon5_weak_classes_best.keras` |
 | Bundled TFLite | `mobile/assets/models/agroscan_baseline_float.tflite` (legacy filename) |
-| Fallbacks if jalon4 model missing | `models/agroscan_plantwild.keras`, then `models/agroscan_baseline.keras` |
+| Fallbacks if Jalon 5 model missing | `models/jalon4_original_segmented_plantdoc_ft.keras`, then `models/agroscan_plantwild.keras`, then `models/agroscan_baseline.keras` |
 
-After sync, `gradcam_classifier_weights.json` records `source_keras` (e.g. `jalon4_original_segmented_plantdoc_ft.keras`). The sync script prints `Using Keras model: ...` on export.
+After sync, `gradcam_classifier_weights.json` records `source_keras` (e.g. `jalon5_weak_classes_best.keras`). The sync script prints `Using Keras model: ...` on export.
 
 ## Current Results
 
-Current metrics focus on **Jalon 4**, using the 38-class PlantVillage label space. PlantDoc test contains **236 images / 27 mapped classes** and is the closest evaluation set to real mobile use.
+Current metrics focus on the **final Jalon 5 model**, using the 38-class PlantVillage label space. PlantDoc test contains **236 images / 27 mapped classes** and is the closest evaluation set to real mobile use.
 
-### Jalon 4 — current app model
+### Final model — Jalon 5 weak-class reinforcement
 
-Current app checkpoint: `models/jalon4_original_segmented_plantdoc_ft.keras`.
+Final checkpoint: `models/jalon5_weak_classes_best.keras`.
 
-This model is fine-tuned with both PlantDoc original images and their segmented versions. It is used for the Flutter app export through `./scripts/sync_mobile_assets.sh`.
+This model starts from the Jalon 4 original+segmented PlantDoc model, then reinforces weak classes through targeted oversampling and stronger augmentation. It is the best current compromise on PlantDoc original, which is the main mobile scenario.
 
 | Test set | Top-1 Accuracy | Macro F1 | Mean confidence |
 |----------|----------------|----------|-----------------|
-| PlantDoc original | **51.69%** | **50.17%** | **57.88%** |
-| PlantDoc segmented | **50.85%** | **45.23%** | **55.21%** |
+| PlantDoc original | **52.54%** | **52.98%** | **59.40%** |
+| PlantDoc segmented | **55.08%** | **53.61%** | **56.68%** |
 
-Top-k accuracy for the same app model:
+Top-k accuracy for the final model:
 
 | Test set | Top-1 | Top-2 | Top-3 |
 |----------|-------|-------|-------|
-| PlantDoc original | **51.69%** | **67.37%** | **77.54%** |
-| PlantDoc segmented | **50.85%** | **67.80%** | **75.85%** |
+| PlantDoc original | **52.54%** | **72.46%** | **81.78%** |
+| PlantDoc segmented | **55.08%** | **72.46%** | **80.51%** |
 
-The top-3 result motivates the mobile UI: the app shows the main prediction plus the next likely hypotheses instead of presenting a single diagnosis as certain.
+Weak-class metrics improved compared with the Jalon 4 baseline:
 
-### Segmentation experiment
+| Test set | Baseline weak Macro F1 | Final weak Macro F1 |
+|----------|------------------------|---------------------|
+| PlantDoc original | 21.27% | **26.87%** |
+| PlantDoc segmented | 22.00% | **32.32%** |
+
+### Final experiment comparison
+
+| Model / setting | PlantDoc original Top-1 | PlantDoc original Macro F1 | PlantDoc segmented Top-1 | PlantDoc segmented Macro F1 |
+|-----------------|-------------------------|----------------------------|---------------------------|------------------------------|
+| Jalon 4 original+segmented | 51.69% | 50.17% | 50.85% | 45.23% |
+| Jalon 5 weighted loss | 51.69% | 50.78% | 53.81% | 52.79% |
+| **Jalon 5 targeted augmentation** | **52.54%** | **52.98%** | **55.08%** | 53.61% |
+| Jalon 5 combined light | 49.58% | 49.58% | 54.66% | **54.08%** |
+| Jalon 5 multi-head + segmented | 50.42% | 49.13% | 48.31% | 45.63% |
+
+The combined weak-class strategy helps on segmented data but hurts PlantDoc original, so it is not retained as the final model. The multi-head + segmentation experiment preserves PlantVillage performance better, but does not improve PlantDoc and is not selected for the mobile model.
+
+### Segmentation experiment reference
 
 Segmentation alone does not improve the original Jalon 4 model immediately: on PlantDoc, it keeps the same top-1 accuracy but changes many predictions. The gain appears after fine-tuning with segmented data.
 
 | Model / setting | Test set | Accuracy | Macro F1 |
 |-----------------|----------|----------|----------|
-| Jalon 4 model before segmentation fine-tuning | PlantDoc original | **44.49%** | **42.20%** |
-| Jalon 4 model before segmentation fine-tuning | PlantDoc segmented | **44.49%** | **42.10%** |
-| Segmented-only fine-tuning | PlantDoc segmented | **52.12%** | **50.18%** |
-| Original + segmented fine-tuning | PlantDoc original | **51.69%** | **50.17%** |
-| Original + segmented fine-tuning | PlantDoc segmented | **50.85%** | **45.23%** |
+| Jalon 4 model before segmentation fine-tuning | PlantDoc original | 44.49% | 42.20% |
+| Jalon 4 model before segmentation fine-tuning | PlantDoc segmented | 44.49% | 42.10% |
+| Segmented-only fine-tuning | PlantDoc segmented | 52.12% | 50.18% |
+| Original + segmented fine-tuning | PlantDoc original | 51.69% | 50.17% |
+| Original + segmented fine-tuning | PlantDoc segmented | 50.85% | 45.23% |
 
-The current app model keeps the best compromise for mobile use because it remains usable on original photos while benefiting from segmented data during training.
+The final model keeps the mobile-oriented compromise: original photos remain the priority, while segmented data and weak-class augmentation improve robustness.
 
 ## Scripts
 
@@ -221,7 +243,7 @@ All helper scripts live under [`scripts/`](scripts/). See **[`scripts/README.md`
 
 | Script | Needed for the app? | When to run |
 |--------|---------------------|-------------|
-| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training: copies dual TFLite + Grad-CAM assets to `mobile/assets/models/`. **Default Keras:** `models/jalon4_original_segmented_plantdoc_ft.keras` (jalon4); override with `KERAS_MODEL=...`. |
+| [`sync_mobile_assets.sh`](scripts/sync_mobile_assets.sh) / [`.ps1`](scripts/sync_mobile_assets.ps1) | **Yes** | After training: copies dual TFLite + Grad-CAM assets to `mobile/assets/models/`. **Default Keras:** `models/jalon5_weak_classes_best.keras` (final Jalon 5); override with `KERAS_MODEL=...`. |
 | [`export_mobile_explain_tflite.py`](scripts/export_mobile_explain_tflite.py) | (called by sync) | Manual use only if you are debugging the mobile export itself (same output as sync). |
 | [`export_mobile_tflite.py`](scripts/export_mobile_tflite.py) | **No** (optional) | Legacy / experiments: classification-only or quantized TFLite (~0.18 MB). The Flutter app uses the dual float model from `export_mobile_explain_tflite.py`, not this file. |
 | [`validate_advice_coverage.sh`](scripts/validate_advice_coverage.sh) / [`.ps1`](scripts/validate_advice_coverage.ps1) | **Yes** (content) | After editing `mobile/assets/advice/diseases_fr.json`. Or `cd mobile && dart run tool/validate_advice_coverage.dart` on any OS. |
